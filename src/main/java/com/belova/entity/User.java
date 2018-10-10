@@ -4,7 +4,9 @@ import com.sun.istack.internal.NotNull;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -36,8 +38,13 @@ public class User extends com.belova.entity.Entity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private List<Task> tasks;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    private List<UserRole> roles;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "User_UserRole",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "userRole_id") }
+    )
+    private Set<UserRole> userRoles = new HashSet<>();
 
     public User() {
     }
@@ -98,11 +105,11 @@ public class User extends com.belova.entity.Entity {
         this.tasks = tasks;
     }
 
-    public List<UserRole> getRoles() {
-        return roles;
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    public void setRoles(List<UserRole> roles) {
-        this.roles = roles;
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }

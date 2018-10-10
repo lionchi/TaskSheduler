@@ -1,5 +1,6 @@
 package com.belova.controller;
 
+import com.belova.common.MyUserDetailsService;
 import com.belova.common.UserSession;
 import com.belova.entity.User;
 import com.belova.service.UserServiceImpl;
@@ -58,7 +59,6 @@ public class MainController {
         logIn.setOnAction(event -> login());
     }
 
-    @javax.transaction.Transactional
     void login() {
         try {
             final String username = loginField.getText().trim();
@@ -90,6 +90,7 @@ public class MainController {
             alertApproval.setTitle("Error!");
             alertApproval.setHeaderText(null);
             alertApproval.showAndWait();
+            System.out.println(e.getMessage());
         }
     }
 

@@ -3,8 +3,6 @@ package com.belova;
 import com.belova.common.AbstractJavaFxApplicationSupport;
 import com.belova.controller.ConfigurationControllers;
 import com.belova.controller.MainController;
-import com.belova.entity.Task;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;

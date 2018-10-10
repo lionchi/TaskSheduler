@@ -3,6 +3,8 @@ package com.belova.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,16 +19,13 @@ public class SecurityConfiguration extends GlobalMethodSecurityConfiguration {
 
     @Autowired
     DataSource dataSource;
+    @Autowired
+    CustomPermissionEvaluator customPermissionEvaluator;
 
-   /* @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/tasksheduler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
-        ds.setUsername("root");
-        ds.setPassword("root");
-        return ds;
-    }*/
+    @Bean
+    public CustomPermissionEvaluator customPermissionEvaluator() {
+        return new CustomPermissionEvaluator();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -34,8 +33,16 @@ public class SecurityConfiguration extends GlobalMethodSecurityConfiguration {
                 .dataSource(dataSource)
                 .rolePrefix("ROLE_")
                 .usersByUsernameQuery("SELECT login, password, case enabled when 1 then 'true' else 'false' end FROM user WHERE login = ?")
-                .authoritiesByUsernameQuery("SELECT u.login, r.rolename FROM user u, user_role r WHERE u.id = r.user_id and login = ?")
+                .authoritiesByUsernameQuery("SELECT u.login, r.rolename, ur.user_role_id FROM user u, user_role r, user_user_role ur WHERE u.id = ur.user_id and r.id = ur.user_role_id and login = ?")
                 .passwordEncoder(new Md5PasswordEncoder());
+    }
+
+    @Override
+    protected MethodSecurityExpressionHandler createExpressionHandler() {
+        DefaultMethodSecurityExpressionHandler expressionHandler =
+                new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(customPermissionEvaluator);
+        return expressionHandler;
     }
 
     @Bean

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="tableUsers" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="647.0" prefWidth="947.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.AdminController">
+   <children>
+      <Pane layoutX="668.0" prefHeight="647.0" prefWidth="279.0" styleClass="pane" stylesheets="@../css/MyStyle.css">
+         <children>
+            <Label fx:id="managementOfUsers" layoutX="18.0" layoutY="49.0" styleClass="button1" text="УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ" textFill="WHITE">
+               <font>
+                  <Font name="Impact" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow height="63.37" radius="27.005" width="46.65" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="delete_user" layoutX="16.0" layoutY="119.0" styleClass="button1" text="УДАЛИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
+               <font>
+                  <Font name="Impact" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow height="63.37" radius="27.005" width="46.65" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="managementOfRoles" layoutX="18.0" layoutY="187.0" styleClass="button1" text="УПРАВЛЕНИЕ РОЛЯМИ" textFill="WHITE">
+               <font>
+                  <Font name="Impact" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow height="63.37" radius="27.005" width="46.65" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="managementOfAccess" layoutX="18.0" layoutY="262.0" prefHeight="24.0" prefWidth="208.0" styleClass="button1" text="УПРАВЛЕНИЕ ДОСТУПОМ" textFill="WHITE">
+               <font>
+                  <Font name="Impact" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow height="63.37" radius="27.005" width="46.65" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="statistics" layoutX="18.0" layoutY="336.0" styleClass="button1" text="СТАТИСТИКА" textFill="WHITE">
+               <font>
+                  <Font name="Impact" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow height="63.37" radius="27.005" width="46.65" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="changePass" layoutX="14.0" layoutY="501.0" styleClass="button1" text="ИЗМЕНИТЬ ПАРОЛЬ" textFill="WHITE">
+               <font>
+                  <Font name="Impact" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow height="63.37" radius="27.005" width="46.65" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="logOut" layoutX="14.0" layoutY="563.0" styleClass="button1" text="СМЕНИТЬ УЧЕТНУЮ ЗАПИСЬ" textFill="WHITE">
+               <font>
+                  <Font name="Impact" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow height="63.37" radius="27.005" width="46.65" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+         </children>
+      </Pane>
+      <TableView fx:id="mainTable" layoutX="24.0" layoutY="130.0" prefHeight="482.0" prefWidth="623.0" styleClass="column-header" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="130.0">
+        <columns>
+          <TableColumn fx:id="fioColumn" minWidth="30.0" prefWidth="110.0" text="ФИО" />
+          <TableColumn fx:id="loginColumn" minWidth="30.0" prefWidth="110.0" text="Логин" />
+            <TableColumn fx:id="postColumn" prefWidth="110.0" text="Должность" />
+            <TableColumn fx:id="departmentColumn" prefWidth="100.0" text="Отдел" />
+            <TableColumn fx:id="roleColumn" prefWidth="70.0" text="Роли" />
+            <TableColumn fx:id="privilegesColumn" prefWidth="140.0" text="Права доступа" />
+        </columns>
+      </TableView>
+      <Label layoutX="131.0" layoutY="96.0" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="63.37" radius="27.005" width="46.65" />
+         </effect>
+      </Label>
+      <Label layoutX="24.0" layoutY="33.0" text="Должность" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+         <effect>
+            <DropShadow height="63.37" radius="27.005" width="46.65" />
+         </effect>
+      </Label>
+      <ComboBox fx:id="post_box" layoutX="24.0" layoutY="65.0" prefHeight="31.0" prefWidth="266.0" styleClass="combo-box" stylesheets="@../css/MyStyle.css" />
+   </children>
+</AnchorPane>

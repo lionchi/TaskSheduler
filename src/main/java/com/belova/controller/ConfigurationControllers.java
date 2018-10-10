@@ -2,17 +2,13 @@ package com.belova.controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 @Configuration
-@ComponentScan(basePackages = "")
-@EnableAutoConfiguration
 public class ConfigurationControllers {
 
     @Bean(name = "mainView")
@@ -25,6 +21,11 @@ public class ConfigurationControllers {
         return loadView("ui/task_form.fxml");
     }
 
+    @Bean(name = "adminView")
+    public View getAdminView() throws IOException {
+        return loadView("ui/admin.fxml");
+    }
+
     @Bean
     public MainController getMainController() throws IOException {
         return (MainController) getMainView().getController();
@@ -33,6 +34,11 @@ public class ConfigurationControllers {
     @Bean
     public TaskController getTaskController() throws  IOException {
         return  (TaskController) getTaskView().getController();
+    }
+
+    @Bean
+    public AdminController getAdminController() throws  IOException {
+        return  (AdminController) getAdminView().getController();
     }
 
     protected View loadView(String url) throws IOException {
