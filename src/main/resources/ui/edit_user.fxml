@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane opacity="0.68" prefHeight="516.0" prefWidth="550.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiContoller.derictories.AddCategoryController">
+   <children>
+      <Label fx:id="fio" layoutX="254.0" layoutY="22.0" text="ФИО" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="fioField" layoutX="52.0" layoutY="56.0" prefHeight="25.0" prefWidth="444.0" styleClass="text-field" stylesheets="@../css/MyStyle.css" />
+      <Label layoutX="247.0" layoutY="126.0" text="ЛОГИН" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="edit" layoutX="236.0" layoutY="433.0" mnemonicParsing="false" text="ИЗМЕНИТЬ" />
+      <TextField fx:id="nameEditRole" layoutX="53.0" layoutY="156.0" onAction="#loginField" prefHeight="25.0" prefWidth="444.0" styleClass="text-field" stylesheets="@../css/MyStyle.css" />
+      <ComboBox fx:id="chooseRole" layoutX="168.0" layoutY="365.0" onAction="#OnCategoriesEdit" prefHeight="25.0" prefWidth="214.0" styleClass="combo-box" stylesheets="@../css/MyStyle.css" />
+      <TextField fx:id="postField" layoutX="54.0" layoutY="261.0" prefHeight="25.0" prefWidth="214.0" styleClass="text-field" stylesheets="@../css/MyStyle.css" />
+      <Label layoutX="109.0" layoutY="228.0" text="ДОЛЖНОСТЬ" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="363.0" layoutY="228.0" text="ОТДЕЛ" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="departmentField" layoutX="283.0" layoutY="261.0" prefHeight="25.0" prefWidth="214.0" styleClass="text-field" stylesheets="@../css/MyStyle.css" />
+      <Label layoutX="252.0" layoutY="332.0" text="РОЛЬ" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

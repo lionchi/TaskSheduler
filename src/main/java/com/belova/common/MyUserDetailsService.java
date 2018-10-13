@@ -13,10 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -42,7 +39,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(
                 user.getLogin(), user.getPassword(), user.getEnabled() == 1, true, true,
-                true, getAuthorities(user.getUserRoles()));
+                true, getAuthorities(Collections.singletonList(user.getUserRole())));
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(

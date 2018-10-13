@@ -34,4 +34,9 @@ public class Privilege extends Entity {
     public void setUserRoles(List<UserRole> userRoles) {
         this.userRoles = userRoles;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

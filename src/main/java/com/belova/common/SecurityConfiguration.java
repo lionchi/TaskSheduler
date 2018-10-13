@@ -33,7 +33,8 @@ public class SecurityConfiguration extends GlobalMethodSecurityConfiguration {
                 .dataSource(dataSource)
                 .rolePrefix("ROLE_")
                 .usersByUsernameQuery("SELECT login, password, case enabled when 1 then 'true' else 'false' end FROM user WHERE login = ?")
-                .authoritiesByUsernameQuery("SELECT u.login, r.rolename, ur.user_role_id FROM user u, user_role r, user_user_role ur WHERE u.id = ur.user_id and r.id = ur.user_role_id and login = ?")
+                .authoritiesByUsernameQuery("SELECT u.login, r.rolename FROM user u, user_role r WHERE u.user_role_id = r.id and login = ?")
+                //.authoritiesByUsernameQuery("SELECT u.login, r.rolename, ur.user_role_id FROM user u, user_role r, user_user_role ur WHERE u.id = ur.user_id and r.id = ur.user_role_id and login = ?")
                 .passwordEncoder(new Md5PasswordEncoder());
     }
 

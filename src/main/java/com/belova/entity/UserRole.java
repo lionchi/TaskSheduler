@@ -15,10 +15,10 @@ public class UserRole extends com.belova.entity.Entity {
     @Column(name = "rolename", nullable = false)
     private String rolename;
 
-    @ManyToMany(mappedBy = "userRoles")
+    @OneToMany(mappedBy = "userRole", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<User> users;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(name = "UserRole_Privilege",
             joinColumns = {@JoinColumn(name = "userRole_id")},
             inverseJoinColumns = {@JoinColumn(name = "privilege_id")})
@@ -49,5 +49,10 @@ public class UserRole extends com.belova.entity.Entity {
 
     public void setPrivileges(Set<Privilege> privileges) {
         this.privileges = privileges;
+    }
+
+    @Override
+    public String toString() {
+        return rolename;
     }
 }

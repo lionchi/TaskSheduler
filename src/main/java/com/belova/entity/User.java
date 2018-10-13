@@ -1,10 +1,14 @@
 package com.belova.entity;
 
+import com.mysql.cj.xdevapi.Collection;
 import com.sun.istack.internal.NotNull;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -38,13 +42,26 @@ public class User extends com.belova.entity.Entity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private List<Task> tasks;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "User_UserRole",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "userRole_id") }
-    )
-    private Set<UserRole> userRoles = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "user_role_id")
+    private UserRole userRole;
+
+    @Transient
+    private StringProperty loginP = new SimpleStringProperty();
+    @Transient
+    private StringProperty passwordP = new SimpleStringProperty();
+    @Transient
+    private StringProperty fioP = new SimpleStringProperty();
+    @Transient
+    private StringProperty departmentP = new SimpleStringProperty();
+    @Transient
+    private StringProperty postP = new SimpleStringProperty();
+    @Transient
+    private StringProperty enabledP = new SimpleStringProperty();
+    @Transient
+    private StringProperty userRoleP = new SimpleStringProperty();
+    @Transient
+    private StringProperty privilegeP = new SimpleStringProperty();
 
     public User() {
     }
@@ -55,6 +72,7 @@ public class User extends com.belova.entity.Entity {
 
     public void setLogin(String login) {
         this.login = login;
+        setLoginP(login);
     }
 
     public String getPassword() {
@@ -71,6 +89,7 @@ public class User extends com.belova.entity.Entity {
 
     public void setFio(String fio) {
         this.fio = fio;
+        setFioP(fio);
     }
 
     public String getDepartment() {
@@ -79,6 +98,7 @@ public class User extends com.belova.entity.Entity {
 
     public void setDepartment(String department) {
         this.department = department;
+        setDepartmentP(department);
     }
 
     public String getPost() {
@@ -87,6 +107,7 @@ public class User extends com.belova.entity.Entity {
 
     public void setPost(String post) {
         this.post = post;
+        setPostP(post);
     }
 
     public Integer getEnabled() {
@@ -95,6 +116,7 @@ public class User extends com.belova.entity.Entity {
 
     public void setEnabled(Integer enabled) {
         this.enabled = enabled;
+        setEnabledP(enabled);
     }
 
     public List<Task> getTasks() {
@@ -105,11 +127,126 @@ public class User extends com.belova.entity.Entity {
         this.tasks = tasks;
     }
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+        setUserRoleP(userRoleP.toString());
+    }
+
+    public String getLoginP() {
+        return loginP.get();
+    }
+
+    public StringProperty LoginProperty() {
+        return loginP;
+    }
+
+    public void setLoginP(String loginP) {
+        this.loginP.set(loginP);
+    }
+
+    public String getPasswordP() {
+        return passwordP.get();
+    }
+
+    public StringProperty PasswordProperty() {
+        return passwordP;
+    }
+
+    public void setPasswordP(String passwordP) {
+        this.passwordP.set(passwordP);
+    }
+
+    public String getFioP() {
+        return fioP.get();
+    }
+
+    public StringProperty FioProperty() {
+        return fioP;
+    }
+
+    public void setFioP(String fioP) {
+        this.fioP.set(fioP);
+    }
+
+    public String getDepartmentP() {
+        return departmentP.get();
+    }
+
+    public StringProperty DepartmentProperty() {
+        return departmentP;
+    }
+
+    public void setDepartmentP(String departmentP) {
+        this.departmentP.set(departmentP);
+    }
+
+    public String getPostP() {
+        return postP.get();
+    }
+
+    public StringProperty PostProperty() {
+        return postP;
+    }
+
+    public void setPostP(String postP) {
+        this.postP.set(postP);
+    }
+
+    public String getEnabledP() {
+        return enabledP.get();
+    }
+
+    public StringProperty EnabledProperty() {
+        return enabledP;
+    }
+
+    public void setEnabledP(Integer enabledP) {
+        if (enabledP == 1) {
+            this.enabledP.set("Активен");
+        } else {
+            this.enabledP.set("Заблокирован");
+        }
+    }
+
+    public String getUserRoleP() {
+        return userRoleP.get();
+    }
+
+    public StringProperty UserRoleProperty() {
+        return userRoleP;
+    }
+
+    public void setUserRoleP(String userRoleP) {
+        this.userRoleP.set(userRoleP);
+    }
+
+    public String getPrivilegeP() {
+        return privilegeP.get();
+    }
+
+    public StringProperty PriviligeProperty() {
+        return privilegeP;
+    }
+
+    public void setPrivilegeP(Set<Privilege> privileges) {
+        String string = privileges.stream()
+                .collect(StringBuilder::new,
+                        (stringBuilder, privilege) -> stringBuilder.append(privilege).append(","),
+                        StringBuilder::append).toString();
+        this.privilegeP.set(string);
+    }
+
+    public void initProperty () {
+        this.setLoginP(this.getLogin());
+        this.setFioP(this.getFio());
+        this.setDepartmentP(this.getDepartment());
+        this.setPostP(this.getPost());
+        this.setUserRoleP(this.getUserRole().toString());
+        this.setEnabledP(this.getEnabled());
+        this.setPrivilegeP(this.getUserRole().getPrivileges());
     }
 }

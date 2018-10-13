@@ -16,11 +16,7 @@ public class TaskController {
 
     @FXML
     public void initialize() {
-        testButton.setOnAction(event -> test());
+
     }
 
-    private void test() {
-        User user = userService.findUserByLogin(userSession.getLogin());
-        userService.test(user);
-    }
 }

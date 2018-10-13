@@ -26,19 +26,59 @@ public class ConfigurationControllers {
         return loadView("ui/admin.fxml");
     }
 
+    @Bean(name = "managementOfRoleView")
+    public View getRoleView() throws IOException {
+        return loadView("ui/management_role_form.fxml");
+    }
+
+    @Bean(name = "managementOfUserView")
+    public View getUserView() throws IOException {
+        return loadView("ui/management_users_form.fxml");
+    }
+
+    @Bean(name = "managementOfPrivilege")
+    public View getPrivilegeView() throws IOException {
+        return loadView("ui/management_privileges.fxml");
+    }
+
+    @Bean(name = "passwordController")
+    public View getChangePasswordView() throws IOException {
+        return loadView("ui/change_password.fxml");
+    }
+
     @Bean
     public MainController getMainController() throws IOException {
         return (MainController) getMainView().getController();
     }
 
     @Bean
-    public TaskController getTaskController() throws  IOException {
-        return  (TaskController) getTaskView().getController();
+    public TaskController getTaskController() throws IOException {
+        return (TaskController) getTaskView().getController();
     }
 
     @Bean
-    public AdminController getAdminController() throws  IOException {
-        return  (AdminController) getAdminView().getController();
+    public AdminController getAdminController() throws IOException {
+        return (AdminController) getAdminView().getController();
+    }
+
+    @Bean
+    public ManagementRoleController getManagementRoleController() throws IOException {
+        return (ManagementRoleController) getRoleView().getController();
+    }
+
+    @Bean
+    public ManagementUserController getManagementUserController() throws IOException {
+        return (ManagementUserController) getUserView().getController();
+    }
+
+    @Bean
+    public ManagementPrivilegeController getManagementPrivilegeController() throws IOException {
+        return (ManagementPrivilegeController) getPrivilegeView().getController();
+    }
+
+    @Bean
+    public ChangePasswordController getChangePasswordController() throws IOException {
+        return (ChangePasswordController) getChangePasswordView().getController();
     }
 
     protected View loadView(String url) throws IOException {

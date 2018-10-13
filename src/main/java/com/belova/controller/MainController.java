@@ -1,6 +1,5 @@
 package com.belova.controller;
 
-import com.belova.common.MyUserDetailsService;
 import com.belova.common.UserSession;
 import com.belova.entity.User;
 import com.belova.service.UserServiceImpl;
@@ -8,12 +7,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +30,7 @@ public class MainController {
 
     @Autowired
     private EntityManager entityManager;
-    @Qualifier("taskView")
+    @Qualifier("adminView")
     @Autowired
     private ConfigurationControllers.View view;
     @Autowired
@@ -43,8 +43,7 @@ public class MainController {
     private Stage stage;
 
     public TextField loginField;
-    public TextField passwordField;
-    public Label changePassword;
+    public PasswordField passwordField;
     public ImageView imageView;
     public Button logIn;
 
@@ -78,13 +77,7 @@ public class MainController {
             userSession.setRoles(roles);
             userSession.setId(currentUser.getId());
 
-            TaskController taskController = (TaskController) view.getController();
-            AnchorPane view = (AnchorPane) this.view.getView();
-            stage.setTitle("Lol");
-            stage.setScene(new Scene(view));
-            stage.setResizable(true);
-            stage.centerOnScreen();
-            stage.show();
+            showWindowsOfUserOrAdmin();
         } catch (AuthenticationException e) {
             Alert alertApproval = new Alert(Alert.AlertType.ERROR, "Отказано в доступе. Проверьте свои данные");
             alertApproval.setTitle("Error!");
@@ -97,6 +90,28 @@ public class MainController {
     private void setImage() {
         URL url = getClass().getClassLoader().getResource("img/organize.png");
         imageView.setImage(new Image(url.toString()));
+    }
+
+    private void showWindowsOfUserOrAdmin() {
+        if (userSession.getRoles().contains("ROLE_ADMIN")) {
+            Window window = null;
+            if (view.getView().getScene() != null) {
+                window = view.getView().getScene().getWindow();
+            }
+            Stage newStage = new Stage();
+            AdminController adminController = (AdminController) view.getController();
+            AnchorPane view = (AnchorPane) this.view.getView();
+            adminController.setPrimaryStage(stage);
+            adminController.setStage(newStage);
+            newStage.setTitle("Администрирование");
+            newStage.setScene(window==null ? new Scene(view) : window.getScene());
+            newStage.setResizable(true);
+            newStage.centerOnScreen();
+            newStage.show();
+            stage.hide();
+        } else {
+
+        }
     }
 
     public void setStage(Stage stage) {
