@@ -1,6 +1,7 @@
 package com.belova.common;
 
 import com.belova.entity.Privilege;
+import com.belova.entity.User;
 import com.belova.entity.UserRole;
 import com.belova.entity.repository.UserRepository;
 import com.belova.entity.repository.UserRoleRepository;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.*;
 
 @Service
@@ -41,6 +43,15 @@ public class MyUserDetailsService implements UserDetailsService {
                 user.getLogin(), user.getPassword(), user.getEnabled() == 1, true, true,
                 true, getAuthorities(Collections.singletonList(user.getUserRole())));
     }
+
+    public User loadUserById(Serializable id, String targetType) {
+        User findUser = null;
+        if (targetType.equals("User")) {
+            findUser = userRepository.findOne((Long) id);
+        }
+        return findUser;
+    }
+
 
     private Collection<? extends GrantedAuthority> getAuthorities(
             Collection<UserRole> roles) {

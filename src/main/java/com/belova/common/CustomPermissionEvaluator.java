@@ -21,13 +21,13 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
         if ((auth == null) || (targetDomainObject == null) || !(permission instanceof String)) {
             return false;
         }
-        if(((User)targetDomainObject).getLogin()==null) {
+        if (((User) targetDomainObject).getLogin() == null) {
             return false;
         }
         //String targetType = targetDomainObject.getClass().getSimpleName().toUpperCase();
-        String targetLogin = ((User)targetDomainObject).getLogin();
+        String targetLogin = ((User) targetDomainObject).getLogin();
 
-        return hasPrivilege(auth, targetLogin, permission.toString());
+        return hasPrivilege(targetLogin, permission.toString());
     }
 
     @Override
@@ -36,12 +36,12 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
         if ((auth == null) || (targetType == null) || !(permission instanceof String)) {
             return false;
         }
-        return hasPrivilege(auth, targetType.toUpperCase(),
-                permission.toString().toUpperCase());
+        User user = myUserDetailsService.loadUserById(targetId, targetType);
+        return hasPrivilege(user.getLogin(), permission.toString());
     }
 
 
-    private boolean hasPrivilege(Authentication auth, String targetLogin, String permission) {
+    private boolean hasPrivilege(String targetLogin, String permission) {
         UserDetails userDetails = myUserDetailsService.loadUserByUsername(targetLogin);
         for (GrantedAuthority grantedAuth : userDetails.getAuthorities()) {
             if (grantedAuth.getAuthority().contains(permission)) {
