@@ -33,7 +33,7 @@ public class ConfigurationControllers {
     }
 
     @Bean(name = "managementOfUserView")
-    public View getUserView() throws IOException {
+    public View getUserManagementView() throws IOException {
         return loadView("ui/management_users_form.fxml");
     }
 
@@ -55,6 +55,16 @@ public class ConfigurationControllers {
     @Bean(name = "managementOfTasks")
     public View getTasksView() throws IOException {
         return loadView("ui/management_tasks_form.fxml");
+    }
+
+    @Bean(name = "userView")
+    public View getUserView() throws IOException {
+        return loadView("ui/user_form.fxml");
+    }
+
+    @Bean(name = "statusView")
+    public View getStatusView() throws IOException {
+        return loadView("ui/change_status_form.fxml");
     }
 
     @Bean
@@ -79,7 +89,7 @@ public class ConfigurationControllers {
 
     @Bean
     public ManagementUserController getManagementUserController() throws IOException {
-        return (ManagementUserController) getUserView().getController();
+        return (ManagementUserController) getUserManagementView().getController();
     }
 
     @Bean
@@ -100,6 +110,16 @@ public class ConfigurationControllers {
     @Bean
     public ManagementTasksController getManagementTasksController() throws IOException {
         return (ManagementTasksController) getTasksView().getController();
+    }
+
+    @Bean
+    public UserController getUserController() throws IOException {
+        return (UserController) getUserView().getController();
+    }
+
+    @Bean
+    public ChangeStatusController getChangeStatusController() throws IOException {
+        return (ChangeStatusController) getStatusView().getController();
     }
 
     protected View loadView(String url) throws IOException {

@@ -19,6 +19,13 @@ public class UserSession {
         this.roles = roles;
     }
 
+    public void closeSession () {
+        this.id = null;
+        this.fio = null;
+        this.login = null;
+        this.roles = null;
+    }
+
     public Long getId() {
         return id;
     }

@@ -37,6 +37,9 @@ public class MainController {
     @Qualifier("leadController")
     @Autowired
     private ConfigurationControllers.View viewLead;
+    @Qualifier("userView")
+    @Autowired
+    private ConfigurationControllers.View viewUser;
     @Autowired
     private AuthenticationManager authManager;
     @Autowired
@@ -124,6 +127,23 @@ public class MainController {
             leadController.setPrimaryStage(stage);
             leadController.setStage(newStage);
             leadController.initMainTable(true);
+            newStage.setTitle("Руководитель");
+            newStage.setScene(window==null ? new Scene(view) : window.getScene());
+            newStage.setResizable(true);
+            newStage.centerOnScreen();
+            newStage.show();
+            stage.hide();
+        } else if (userSession.getRoles().contains("ROLE_USER")) {
+            Window window = null;
+            if (viewUser.getView().getScene() != null) {
+                window = viewUser.getView().getScene().getWindow();
+            }
+            Stage newStage = new Stage();
+            UserController userController = (UserController) viewUser.getController();
+            AnchorPane view = (AnchorPane) this.viewUser.getView();
+            userController.setPrimaryStage(stage);
+            userController.setStage(newStage);
+            userController.initMainTable(true);
             newStage.setTitle("Руководитель");
             newStage.setScene(window==null ? new Scene(view) : window.getScene());
             newStage.setResizable(true);

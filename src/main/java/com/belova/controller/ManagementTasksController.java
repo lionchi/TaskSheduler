@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 
 import javax.annotation.PostConstruct;
 import java.time.ZoneId;
@@ -68,8 +69,12 @@ public class ManagementTasksController {
                 && chooseType.getSelectionModel().getSelectedIndex() > -1
                 && userComboBox.getSelectionModel().getSelectedIndex() > -1) {
             User userByLogin = userService.findUserByLogin(userSession.getLogin());
-            tasksService.addTask(nameField.getText(), description.getText(), chooseStatus.getValue(), chooseComplexity.getValue(),
-                    chooseType.getValue(), userComboBox.getValue(), deadline.getValue(), isQuickly.isSelected(), userByLogin);
+            try {
+                tasksService.addTask(nameField.getText(), description.getText(), chooseStatus.getValue(), chooseComplexity.getValue(),
+                        chooseType.getValue(), userComboBox.getValue(), deadline.getValue(), isQuickly.isSelected(), userByLogin);
+            } catch (AccessDeniedException accessDeniedException) {
+                new Alert(Alert.AlertType.ERROR, "У вас недостаточно прав доступа").showAndWait();
+            }
             clearComboBox(chooseStatus, chooseComplexity, chooseType, userComboBox);
             nameField.clear();
             description.clear();
@@ -86,8 +91,12 @@ public class ManagementTasksController {
                 chooseStatus.getValue(), chooseComplexity.getValue(), chooseType.getValue())
                 && !org.springframework.util.ObjectUtils.isEmpty(new String[]{nameField.getText(), description.getText()})) {
             User userByLogin = userService.findUserByLogin(userSession.getLogin());
-            tasksService.editTask( editTask.getId(), nameField.getText(), description.getText(), chooseStatus.getValue(), chooseComplexity.getValue(),
-                    chooseType.getValue(), userComboBox.getValue(), deadline.getValue(), isQuickly.isSelected(), userByLogin);
+            try {
+                tasksService.editTask( editTask.getId(), nameField.getText(), description.getText(), chooseStatus.getValue(), chooseComplexity.getValue(),
+                        chooseType.getValue(), userComboBox.getValue(), deadline.getValue(), isQuickly.isSelected(), userByLogin);
+            } catch (AccessDeniedException accessDeniedException) {
+                new Alert(Alert.AlertType.ERROR, "У вас недостаточно прав доступа").showAndWait();
+            }
             leadController.initMainTable(false);
             stage.close();
         } else {

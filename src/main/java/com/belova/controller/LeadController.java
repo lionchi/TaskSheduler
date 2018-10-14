@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -164,7 +165,12 @@ public class LeadController {
                 alert.showAndWait();
                 return;
             }
-            tasksService.deleteTask(mainTable.getSelectionModel().getSelectedItem());
+            User removingOfUser = userService.findUserByLogin(userSession.getLogin());
+            try {
+                tasksService.deleteTask(mainTable.getSelectionModel().getSelectedItem(), removingOfUser);
+            } catch (org.springframework.security.access.AccessDeniedException accessDeniedException) {
+                new Alert(Alert.AlertType.ERROR, "У вас недостаточно прав доступа").showAndWait();
+            }
             mainTable.getItems().remove(mainTable.getSelectionModel().getSelectedItem());
         }
         initMainTable(false);
@@ -205,6 +211,7 @@ public class LeadController {
     }
 
     private void logout() {
+        userSession.closeSession();
         stage.close();
         primaryStage.show();
     }

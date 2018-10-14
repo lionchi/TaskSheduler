@@ -166,6 +166,7 @@ public class AdminController {
     }
 
     private void logout() {
+        userSession.closeSession();
         stage.close();
         primaryStage.show();
     }

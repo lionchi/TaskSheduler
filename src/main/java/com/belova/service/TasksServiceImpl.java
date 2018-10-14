@@ -33,6 +33,16 @@ public class TasksServiceImpl implements TasksService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<Task> getAllUserTasks(Long id) {
+        List<Task> tasksDepartments = entityManager.createQuery("select t from Task as t where t.user.id = :id", Task.class)
+                .setParameter("id", id)
+                .getResultList();
+        tasksDepartments.forEach(Task::initProperty);
+        return tasksDepartments;
+    }
+
+    @Override
     @PreAuthorize("hasPermission(#createdUser, 'create')")
     public void addTask(String name, String description, Status status, Complexity complexity, Type type,
                         User user, LocalDate date, boolean isQuickly, User createdUser) {
@@ -64,8 +74,16 @@ public class TasksServiceImpl implements TasksService {
     }
 
     @Override
-    public void deleteTask(Task task) {
+    @PreAuthorize("hasPermission(#removingOfUser, 'remove')")
+    public void deleteTask(Task task, User removingOfUser) {
         Task merge = entityManager.merge(task);
         entityManager.remove(merge);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public void changeStatus(Long id, Status newStatus) {
+        Task task = entityManager.find(Task.class, id);
+        task.setStatus(newStatus);
     }
 }
