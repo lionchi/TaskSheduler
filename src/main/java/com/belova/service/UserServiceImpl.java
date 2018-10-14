@@ -42,6 +42,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllDepartmentUsers(Long id) {
+        User user = entityManager.find(User.class, id);
+        return entityManager.createQuery("select u from User as u where u.department = :department and u.userRole.rolename <> :rolename", User.class)
+                .setParameter("department", user.getDepartment())
+                .setParameter("rolename", "ADMIN")
+                .getResultList();
+    }
+
+    @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addUser(String fio, String login, String post, String department, UserRole role) {
         String password = generatedPassword();
@@ -82,6 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_LEAD','ROLE_USER')")
     public void changePassword(String oldPass, String newPass) {
         User user = entityManager.find(User.class, userSession.getId());
         if (user.getPassword().equals(oldPass)) {

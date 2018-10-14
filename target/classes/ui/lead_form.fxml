@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="647.0" prefWidth="947.0" style="-fx-background-color: black;"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.AdminController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="647.0" prefWidth="947.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.LeadController">
     <children>
         <Pane fx:id="extraPane" layoutX="668.0" prefHeight="647.0" prefWidth="279.0" styleClass="pane">
             <children>
-                <Label fx:id="editUser" layoutX="14.0" layoutY="118.0" styleClass="button1" text="ИЗМЕНИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
+                <Label fx:id="editTask" layoutX="14.0" layoutY="118.0" styleClass="button1" text="ИЗМЕНИТЬ ЗАДАЧУ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -25,7 +25,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-                <Label fx:id="deleteUser" layoutX="14.0" layoutY="188.0" styleClass="button1" text="УДАЛИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
+                <Label fx:id="deleteTask" layoutX="14.0" layoutY="188.0" styleClass="button1" text="УДАЛИТЬ ЗАДАЧУ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -36,29 +36,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-                <Label fx:id="managementOfRoles" layoutX="14.0" layoutY="256.0" styleClass="button1" text="УПРАВЛЕНИЕ РОЛЯМИ" textFill="WHITE">
-                    <font>
-                        <Font name="Impact" size="20.0" />
-                    </font>
-                    <effect>
-                        <DropShadow height="63.37" radius="27.005" width="46.65" />
-                    </effect>
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-                </Label>
-                <Label fx:id="managementOfAccess" layoutX="14.0" layoutY="331.0" prefHeight="24.0" prefWidth="208.0" styleClass="button1" text="УПРАВЛЕНИЕ ДОСТУПОМ" textFill="WHITE">
-                    <font>
-                        <Font name="Impact" size="20.0" />
-                    </font>
-                    <effect>
-                        <DropShadow height="63.37" radius="27.005" width="46.65" />
-                    </effect>
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-                </Label>
-                <Label fx:id="statistics" layoutX="14.0" layoutY="405.0" styleClass="button1" text="СТАТИСТИКА" textFill="WHITE">
+                <Label fx:id="statistics" layoutX="14.0" layoutY="260.0" styleClass="button1" text="СТАТИСТИКА" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -91,7 +69,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-            <Label fx:id="addUser" layoutX="16.0" layoutY="53.0" styleClass="button1" text="ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
+            <Label fx:id="addTask" layoutX="16.0" layoutY="53.0" styleClass="button1" text="ДОБАВИТЬ ЗАДАЧУ" textFill="WHITE">
                <font>
                   <Font name="Impact" size="20.0" />
                </font>
@@ -106,13 +84,13 @@
         </Pane>
         <TableView fx:id="mainTable" layoutX="24.0" layoutY="130.0" prefHeight="482.0" prefWidth="623.0" styleClass="column-header" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="130.0">
             <columns>
-                <TableColumn fx:id="fioColumn" minWidth="30.0" prefWidth="110.0" text="ФИО" />
-                <TableColumn fx:id="loginColumn" minWidth="30.0" prefWidth="70.0" text="Логин" />
-                <TableColumn fx:id="postColumn" prefWidth="85.0" text="Должность" />
-                <TableColumn fx:id="departmentColumn" prefWidth="100.0" text="Отдел" />
-                <TableColumn fx:id="enabledColumn" prefWidth="50.0" text="Статус" />
-                <TableColumn fx:id="roleColumn" prefWidth="70.0" text="Роли" />
-                <TableColumn fx:id="privilegesColumn" prefWidth="160.0" text="Права" />
+                <TableColumn fx:id="fioColumn" minWidth="30.0" prefWidth="110.0" text="НАЗНАЧЕНО" />
+                <TableColumn fx:id="nameColumn" minWidth="30.0" prefWidth="110.0" text="НАИМЕНОВАНИЕ" />
+                <TableColumn fx:id="deadlineColumn" prefWidth="90.0" text="СРОК СДАЧИ" />
+                <TableColumn fx:id="complexityColumn" prefWidth="100.0" text="СЛОЖНОСТЬ" />
+                <TableColumn fx:id="statusColumn" prefWidth="75.0" text="Статус" />
+                <TableColumn fx:id="typeColumn" prefWidth="70.0" text="ТИП" />
+            <TableColumn fx:id="quicklyColumn" prefWidth="70.0" text="СРОЧНО" />
             </columns>
         </TableView>
         <Label layoutX="131.0" layoutY="96.0" textFill="WHITE">
@@ -123,7 +101,7 @@
                 <DropShadow height="63.37" radius="27.005" width="46.65" />
             </effect>
         </Label>
-        <Label layoutX="24.0" layoutY="33.0" text="Отдел" textFill="WHITE">
+        <Label layoutX="24.0" layoutY="33.0" text="ФИО СОТРУДНИКА" textFill="WHITE">
             <font>
                 <Font name="Impact" size="20.0" />
             </font>
@@ -131,9 +109,9 @@
                 <DropShadow height="63.37" radius="27.005" width="46.65" />
             </effect>
         </Label>
-        <ComboBox fx:id="departmentBox" layoutX="24.0" layoutY="65.0" prefHeight="31.0" prefWidth="266.0" styleClass="combo-box" stylesheets="@../css/MyStyle.css" />
-      <ComboBox fx:id="roleBox" layoutX="381.0" layoutY="65.0" prefHeight="31.0" prefWidth="266.0" styleClass="combo-box" stylesheets="@../css/MyStyle.css" />
-      <Label layoutX="381.0" layoutY="33.0" text="Роли" textFill="WHITE">
+        <ComboBox fx:id="fioBox" layoutX="24.0" layoutY="65.0" prefHeight="31.0" prefWidth="266.0"/>
+      <ComboBox fx:id="statusBox" layoutX="381.0" layoutY="65.0" prefHeight="31.0" prefWidth="266.0"/>
+      <Label layoutX="381.0" layoutY="33.0" text="СТАТУС" textFill="WHITE">
          <font>
             <Font name="Impact" size="20.0" />
          </font>

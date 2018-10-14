@@ -1,5 +1,6 @@
-package com.belova.controller;
+package com.belova.controller.configuration;
 
+import com.belova.controller.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,16 @@ public class ConfigurationControllers {
         return loadView("ui/change_password.fxml");
     }
 
+    @Bean(name = "leadController")
+    public View getLeadView() throws IOException {
+        return loadView("ui/lead_form.fxml");
+    }
+
+    @Bean(name = "managementOfTasks")
+    public View getTasksView() throws IOException {
+        return loadView("ui/management_tasks_form.fxml");
+    }
+
     @Bean
     public MainController getMainController() throws IOException {
         return (MainController) getMainView().getController();
@@ -79,6 +90,16 @@ public class ConfigurationControllers {
     @Bean
     public ChangePasswordController getChangePasswordController() throws IOException {
         return (ChangePasswordController) getChangePasswordView().getController();
+    }
+
+    @Bean
+    public LeadController getLeadController() throws IOException {
+        return (LeadController) getLeadView().getController();
+    }
+
+    @Bean
+    public ManagementTasksController getManagementTasksController() throws IOException {
+        return (ManagementTasksController) getTasksView().getController();
     }
 
     protected View loadView(String url) throws IOException {

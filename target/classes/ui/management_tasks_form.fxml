@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane opacity="0.68" prefHeight="600.0" prefWidth="593.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.ManagementTasksController">
+   <children>
+      <Label layoutX="111.0" layoutY="47.0" text="НАИМЕНОВАНИЕ" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nameField" layoutX="56.0" layoutY="81.0" prefHeight="25.0" prefWidth="238.0" />
+      <Label layoutX="261.0" layoutY="362.0" text="Описание" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="add" layoutX="249.0" layoutY="530.0" mnemonicParsing="false" />
+      <ComboBox fx:id="chooseStatus" layoutX="315.0" layoutY="157.0" prefHeight="25.0" prefWidth="238.0" styleClass="combo-box" />
+      <Label layoutX="405.0" layoutY="126.0" text="СТАТУС" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="chooseComplexity" layoutX="56.0" layoutY="157.0" prefHeight="25.0" prefWidth="238.0" styleClass="combo-box" />
+      <Label layoutX="125.0" layoutY="123.0" text="СЛОЖНОСТЬ" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="chooseType" layoutX="57.0" layoutY="231.0" prefHeight="25.0" prefWidth="238.0" styleClass="combo-box" />
+      <Label fx:id="c" layoutX="160.0" layoutY="198.0" text="ТИП" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="deadline" layoutX="314.0" layoutY="81.0" prefHeight="25.0" prefWidth="238.0" />
+      <Label layoutX="382.0" layoutY="47.0" text="СРОК СДАЧИ" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="isQuickly" layoutX="384.0" layoutY="230.0" mnemonicParsing="false" text="СРОЧНО" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </CheckBox>
+      <ComboBox fx:id="userComboBox" layoutX="57.0" layoutY="314.0" prefHeight="25.0" prefWidth="494.0" />
+      <Label layoutX="244.0" layoutY="282.0" text="НАЗНАЧИТЬ НА" textFill="#fffdfd">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="description" layoutX="56.0" layoutY="398.0" prefHeight="117.0" prefWidth="494.0" />
+   </children>
+</AnchorPane>

@@ -1,14 +1,11 @@
 package com.belova.entity;
 
-import com.mysql.cj.xdevapi.Collection;
 import com.sun.istack.internal.NotNull;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +36,7 @@ public class User extends com.belova.entity.Entity {
     @Column(name = "enabled", nullable = false)
     private Integer enabled;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Task> tasks;
 
     @ManyToOne
@@ -248,5 +245,10 @@ public class User extends com.belova.entity.Entity {
         this.setUserRoleP(this.getUserRole().toString());
         this.setEnabledP(this.getEnabled());
         this.setPrivilegeP(this.getUserRole().getPrivileges());
+    }
+
+    @Override
+    public String toString() {
+        return fio;
     }
 }

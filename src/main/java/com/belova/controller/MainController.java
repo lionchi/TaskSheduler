@@ -1,6 +1,7 @@
 package com.belova.controller;
 
 import com.belova.common.UserSession;
+import com.belova.controller.configuration.ConfigurationControllers;
 import com.belova.entity.User;
 import com.belova.service.UserServiceImpl;
 import javafx.fxml.FXML;
@@ -32,7 +33,10 @@ public class MainController {
     private EntityManager entityManager;
     @Qualifier("adminView")
     @Autowired
-    private ConfigurationControllers.View view;
+    private ConfigurationControllers.View viewAdmin;
+    @Qualifier("leadController")
+    @Autowired
+    private ConfigurationControllers.View viewLead;
     @Autowired
     private AuthenticationManager authManager;
     @Autowired
@@ -95,12 +99,12 @@ public class MainController {
     private void showWindowsOfUserOrAdmin() {
         if (userSession.getRoles().contains("ROLE_ADMIN")) {
             Window window = null;
-            if (view.getView().getScene() != null) {
-                window = view.getView().getScene().getWindow();
+            if (viewAdmin.getView().getScene() != null) {
+                window = viewAdmin.getView().getScene().getWindow();
             }
             Stage newStage = new Stage();
-            AdminController adminController = (AdminController) view.getController();
-            AnchorPane view = (AnchorPane) this.view.getView();
+            AdminController adminController = (AdminController) viewAdmin.getController();
+            AnchorPane view = (AnchorPane) this.viewAdmin.getView();
             adminController.setPrimaryStage(stage);
             adminController.setStage(newStage);
             newStage.setTitle("Администрирование");
@@ -109,9 +113,26 @@ public class MainController {
             newStage.centerOnScreen();
             newStage.show();
             stage.hide();
-        } else {
-
+        } else if (userSession.getRoles().contains("ROLE_LEAD")) {
+            Window window = null;
+            if (viewLead.getView().getScene() != null) {
+                window = viewLead.getView().getScene().getWindow();
+            }
+            Stage newStage = new Stage();
+            LeadController leadController = (LeadController) viewLead.getController();
+            AnchorPane view = (AnchorPane) this.viewLead.getView();
+            leadController.setPrimaryStage(stage);
+            leadController.setStage(newStage);
+            leadController.initMainTable(true);
+            newStage.setTitle("Руководитель");
+            newStage.setScene(window==null ? new Scene(view) : window.getScene());
+            newStage.setResizable(true);
+            newStage.centerOnScreen();
+            newStage.show();
+            stage.hide();
         }
+        loginField.clear();
+        passwordField.clear();
     }
 
     public void setStage(Stage stage) {

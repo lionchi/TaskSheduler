@@ -12,6 +12,8 @@ public interface UserService {
 
     List<User> getAllUsers ();
 
+    List<User> getAllDepartmentUsers (Long id);
+
     String addUser (String fio, String login, String post, String department, UserRole role);
 
     void editUser (User editUser, String fio, String login, String post, String department, Integer enabled, UserRole role);
