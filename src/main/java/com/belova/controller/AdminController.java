@@ -1,5 +1,6 @@
 package com.belova.controller;
 
+import com.belova.common.BackupData;
 import com.belova.common.UserSession;
 import com.belova.controller.configuration.ConfigurationControllers;
 import com.belova.entity.Privilege;
@@ -51,6 +52,7 @@ public class AdminController {
     public Label statistics;
     public Label changePass;
     public Label logOut;
+    public Label dumpBD;
 
     public ComboBox<String> departmentBox;
     public ComboBox<String> roleBox;
@@ -83,6 +85,7 @@ public class AdminController {
 
     private Stage stage;
     private Stage primaryStage;
+    BackupData b = new BackupData();
 
     @FXML
     public void initialize() {
@@ -100,6 +103,7 @@ public class AdminController {
         managementOfAccess.setOnMouseClicked(event -> showManagementOfPrivilegeView());
         departmentBox.setOnAction(event -> searchOfDepartment());
         roleBox.setOnAction(event -> searchOfRole());
+        dumpBD.setOnMouseClicked(event -> b.backupDataWithOutDatabase("C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump.exe", "localhost", "3306", "root", "root","tasksheduler", "D:\\BackupMyDB\\"));
         initMainTableAndPostBox();
     }
 

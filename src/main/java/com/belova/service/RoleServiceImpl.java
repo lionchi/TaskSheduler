@@ -25,11 +25,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @PreAuthorize(("hasRole('ROLE_ADMIN')"))
-    public void removeRole(String roleName) {
-        UserRole user = entityManager.createQuery("select r from UserRole as r where r.rolename = :rolename", UserRole.class)
-                .setParameter("rolename", roleName)
-                .getSingleResult();
-        entityManager.remove(user);
+    public void removeRole(Long id) {
+        UserRole userRole = entityManager.find(UserRole.class, id);
+        entityManager.remove(userRole);
     }
 
     @Override

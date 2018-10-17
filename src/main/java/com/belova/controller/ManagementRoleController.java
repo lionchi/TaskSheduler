@@ -60,7 +60,7 @@ public class ManagementRoleController {
 
     private void deleteRole() {
         if (roleDelete.getSelectionModel().getSelectedIndex() > -1) {
-            roleService.removeRole(roleDelete.getSelectionModel().getSelectedItem().getRolename());
+            roleService.removeRole(roleDelete.getSelectionModel().getSelectedItem().getId());
             roles.getItems().remove(roleDelete.getSelectionModel().getSelectedItem());
             roleDelete.getItems().remove(roleDelete.getSelectionModel().getSelectedItem());
             roleDelete.getSelectionModel().clearSelection();

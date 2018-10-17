@@ -1,11 +1,11 @@
-insert into user_role (id, rolename) values (1, 'ADMIN');
+﻿insert into user_role (id, rolename) values (1, 'ADMIN');
 insert into user_role (id, rolename) values (2, 'LEAD');
 insert into user_role (id, rolename) values (3, 'USER');
 
 insert into user (id, department, fio, login, password, post, enabled, user_role_id)
 values (1, 'ИБ', 'Иванов Иван Иванович', 'ivan', md5('123456'), 'администратор', 1, 1);
 insert into user (id, department, fio, login, password, post, enabled, user_role_id)
-values (2, 'ОИТ', 'Белова Татьяна Сергеевна', 'tas', md5('123456'), 'сотрудник', 1,3);
+values (2, 'ОИТ', 'Белова Татьяна Сергеевна', 'tas', md5('123456'), 'администратор', 1,1);
 insert into user (id, department, fio, login, password, post, enabled, user_role_id)
 values (3, 'ИБ', 'Кошелева Анастасия Михайловна', 'mix', md5('123456'), 'сотрудник', 1,3);
 insert into user (id, department, fio, login, password, post, enabled, user_role_id)
