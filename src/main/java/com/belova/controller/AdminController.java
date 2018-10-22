@@ -24,10 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AdminController {
@@ -52,7 +51,7 @@ public class AdminController {
     public Label statistics;
     public Label changePass;
     public Label logOut;
-    public Label dumpBD;
+    public Label managementDumpBD;
 
     public ComboBox<String> departmentBox;
     public ComboBox<String> roleBox;
@@ -77,6 +76,9 @@ public class AdminController {
     @Qualifier("passwordController")
     @Autowired
     private ConfigurationControllers.View viewChangePassword;
+    @Qualifier("managementDb")
+    @Autowired
+    private ConfigurationControllers.View viewDb;
 
     private ObservableList<User> userObservableList = FXCollections.observableArrayList();
     private ObservableList<String> observableListForDepartmentBox = FXCollections.observableArrayList();
@@ -85,7 +87,6 @@ public class AdminController {
 
     private Stage stage;
     private Stage primaryStage;
-    BackupData b = new BackupData();
 
     @FXML
     public void initialize() {
@@ -103,7 +104,8 @@ public class AdminController {
         managementOfAccess.setOnMouseClicked(event -> showManagementOfPrivilegeView());
         departmentBox.setOnAction(event -> searchOfDepartment());
         roleBox.setOnAction(event -> searchOfRole());
-        dumpBD.setOnMouseClicked(event -> b.backupDataWithOutDatabase("C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump.exe", "localhost", "3306", "root", "root","tasksheduler", "D:\\BackupMyDB\\"));
+        managementDumpBD.setOnMouseClicked(event -> showManagementDumpDbView());
+        //dumpBD.setOnMouseClicked(event -> b.backupDataWithOutDatabase("C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump.exe", "localhost", "3306", "root", "root","tasksheduler", "D:\\BackupMyDB\\"));
         initMainTableAndPostBox();
     }
 
@@ -146,6 +148,33 @@ public class AdminController {
         AnchorPane view = (AnchorPane) this.viewRole.getView();
         managementRoleController.setStage(newStage);
         managementRoleController.setUserRoles(allRoles);
+        newStage.setScene(window == null ? new Scene(view) : window.getScene());
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(mainTable.getScene().getWindow());
+        newStage.centerOnScreen();
+        newStage.show();
+    }
+
+    private void showManagementDumpDbView() {
+        String pathFile = "", pathDir = "";
+        try (Scanner scanner = new Scanner(new File("configuration.txt"))) {
+            String[] strings = scanner.nextLine().split(",");
+            pathFile = strings[0];
+            pathDir = strings[1];
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        Window window = null;
+        if (viewDb.getView().getScene() != null) {
+            window = viewDb.getView().getScene().getWindow();
+        }
+        Stage newStage = new Stage(StageStyle.UTILITY);
+        ManagementDbController managementDbController = (ManagementDbController) viewDb.getController();
+        AnchorPane view = (AnchorPane) this.viewDb.getView();
+        managementDbController.setStage(newStage);
+        managementDbController.setPathDumpField(pathFile);
+        managementDbController.setPathSaveField(pathDir);
         newStage.setScene(window == null ? new Scene(view) : window.getScene());
         newStage.initModality(Modality.WINDOW_MODAL);
         newStage.initOwner(mainTable.getScene().getWindow());

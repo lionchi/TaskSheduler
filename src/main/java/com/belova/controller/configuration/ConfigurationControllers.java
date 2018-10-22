@@ -67,6 +67,11 @@ public class ConfigurationControllers {
         return loadView("ui/change_status_form.fxml");
     }
 
+    @Bean(name = "managementDb")
+    public View getDbView() throws IOException {
+        return loadView("ui/management_db_form.fxml");
+    }
+
     @Bean
     public MainController getMainController() throws IOException {
         return (MainController) getMainView().getController();
@@ -120,6 +125,11 @@ public class ConfigurationControllers {
     @Bean
     public ChangeStatusController getChangeStatusController() throws IOException {
         return (ChangeStatusController) getStatusView().getController();
+    }
+
+    @Bean
+    public ManagementDbController getManagementDbController() throws IOException {
+        return (ManagementDbController) getDbView().getController();
     }
 
     protected View loadView(String url) throws IOException {

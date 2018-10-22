@@ -1,6 +1,7 @@
 package com.belova;
 
 import com.belova.common.AbstractJavaFxApplicationSupport;
+import com.belova.common.ThreadPoolTaskSchedulerConfig;
 import com.belova.controller.configuration.ConfigurationControllers;
 import com.belova.controller.MainController;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ import org.springframework.context.annotation.Lazy;
 
 @Lazy
 @SpringBootApplication(scanBasePackages = "")
-@Import(ConfigurationControllers.class)
+@Import({ConfigurationControllers.class, ThreadPoolTaskSchedulerConfig.class})
 public class Application extends AbstractJavaFxApplicationSupport {
 
     @Value("${ui.title:JavaFX приложение}")
