@@ -1,6 +1,7 @@
 package com.belova.entity;
 
 import javax.validation.constraints.NotNull;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -42,6 +43,9 @@ public class User extends com.belova.entity.Entity {
     @ManyToOne
     @JoinColumn(name = "user_role_id")
     private UserRole userRole;
+
+    @OneToOne(mappedBy = "user")
+    private UsbKey usbKey;
 
     @Transient
     private StringProperty loginP = new SimpleStringProperty();
@@ -131,6 +135,14 @@ public class User extends com.belova.entity.Entity {
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
         setUserRoleP(userRoleP.toString());
+    }
+
+    public UsbKey getUsbKey() {
+        return usbKey;
+    }
+
+    public void setUsbKey(UsbKey usbKey) {
+        this.usbKey = usbKey;
     }
 
     public String getLoginP() {
@@ -237,7 +249,7 @@ public class User extends com.belova.entity.Entity {
         this.privilegeP.set(string);
     }
 
-    public void initProperty () {
+    public void initProperty() {
         this.setLoginP(this.getLogin());
         this.setFioP(this.getFio());
         this.setDepartmentP(this.getDepartment());

@@ -209,6 +209,7 @@ public class LeadController {
             User userByLogin = userService.findUserByLogin(userSession.getLogin());
             String templateUrl = resource.getURL().toString().replace("file:/", "");
             StatisticsHelper.generateStatisticForLeader(dataSource, userByLogin.getDepartment(), templateUrl);
+            new Alert(Alert.AlertType.INFORMATION, "Статистика сохранена в документы").showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="647.0" prefWidth="947.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.AdminController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="754.0" prefWidth="947.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.AdminController">
     <children>
         <Pane fx:id="extraPane" layoutX="668.0" prefHeight="647.0" prefWidth="279.0" styleClass="pane">
             <children>
-                <Label fx:id="editUser" layoutX="14.0" layoutY="118.0" styleClass="button1" text="ИЗМЕНИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
+                <Label fx:id="editUser" layoutX="14.0" layoutY="135.0" styleClass="button1" text="ИЗМЕНИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -25,7 +25,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-                <Label fx:id="deleteUser" layoutX="14.0" layoutY="188.0" styleClass="button1" text="УДАЛИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
+                <Label fx:id="deleteUser" layoutX="14.0" layoutY="205.0" styleClass="button1" text="УДАЛИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -36,7 +36,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-                <Label fx:id="managementOfRoles" layoutX="14.0" layoutY="256.0" styleClass="button1" text="УПРАВЛЕНИЕ РОЛЯМИ" textFill="WHITE">
+                <Label fx:id="managementOfRoles" layoutX="14.0" layoutY="273.0" styleClass="button1" text="УПРАВЛЕНИЕ РОЛЯМИ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -47,7 +47,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-                <Label fx:id="managementOfAccess" layoutX="14.0" layoutY="331.0" prefHeight="24.0" prefWidth="208.0" styleClass="button1" text="УПРАВЛЕНИЕ ДОСТУПОМ" textFill="WHITE">
+                <Label fx:id="managementOfAccess" layoutX="14.0" layoutY="348.0" prefHeight="24.0" prefWidth="208.0" styleClass="button1" text="УПРАВЛЕНИЕ ДОСТУПОМ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -58,7 +58,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-                <Label fx:id="statistics" layoutX="14.0" layoutY="405.0" styleClass="button1" text="СТАТИСТИКА" textFill="WHITE">
+                <Label fx:id="statistics" layoutX="14.0" layoutY="422.0" styleClass="button1" text="СТАТИСТИКА" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -69,7 +69,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-                <Label fx:id="changePass" layoutX="14.0" layoutY="501.0" styleClass="button1" text="ИЗМЕНИТЬ ПАРОЛЬ" textFill="WHITE">
+                <Label fx:id="changePass" layoutX="14.0" layoutY="617.0" styleClass="button1" text="ИЗМЕНИТЬ ПАРОЛЬ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -80,7 +80,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-                <Label fx:id="logOut" layoutX="14.0" layoutY="563.0" styleClass="button1" text="СМЕНИТЬ УЧЕТНУЮ ЗАПИСЬ" textFill="WHITE">
+                <Label fx:id="logOut" layoutX="12.0" layoutY="681.0" styleClass="button1" text="СМЕНИТЬ УЧЕТНУЮ ЗАПИСЬ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -91,7 +91,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-            <Label fx:id="addUser" layoutX="16.0" layoutY="53.0" styleClass="button1" text="ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
+            <Label fx:id="addUser" layoutX="16.0" layoutY="70.0" styleClass="button1" text="ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ" textFill="WHITE">
                <font>
                   <Font name="Impact" size="20.0" />
                </font>
@@ -102,7 +102,18 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-            <Label fx:id="dumpBD" layoutX="19.0" layoutY="459.0" styleClass="button1" text="БД" textFill="WHITE">
+            <Label fx:id="managementDumpBD" layoutX="16.0" layoutY="489.0" styleClass="button1" text="УПРАВЛЕНИЕ РЕЗЕРВИРОВАНИЕМ" textFill="WHITE">
+               <font>
+                  <Font name="Impact" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow height="63.37" radius="27.005" width="46.65" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="managementUsbKeys" layoutX="16.0" layoutY="554.0" styleClass="button1" text="УПРАВЛЕНИЕ USB-КЛЮЧАМИ" textFill="WHITE">
                <font>
                   <Font name="Impact" size="20.0" />
                </font>

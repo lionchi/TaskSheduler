@@ -72,6 +72,11 @@ public class ConfigurationControllers {
         return loadView("ui/management_db_form.fxml");
     }
 
+    @Bean(name = "usbKeyView")
+    public View getUsbKeyView() throws IOException {
+        return loadView("ui/usb_key_form.fxml");
+    }
+
     @Bean
     public MainController getMainController() throws IOException {
         return (MainController) getMainView().getController();
@@ -130,6 +135,11 @@ public class ConfigurationControllers {
     @Bean
     public ManagementDbController getManagementDbController() throws IOException {
         return (ManagementDbController) getDbView().getController();
+    }
+
+    @Bean
+    public UsbKeyController getUsbKeyController() throws IOException {
+        return (UsbKeyController) getUsbKeyView().getController();
     }
 
     protected View loadView(String url) throws IOException {

@@ -53,6 +53,7 @@ public class AdminController {
     public Label managementOfRoles;
     public Label managementOfAccess;
     public Label statistics;
+    public Label managementUsbKeys;
     public Label changePass;
     public Label logOut;
     public Label managementDumpBD;
@@ -68,6 +69,8 @@ public class AdminController {
     private PrivilegeServiceImpl privilegeService;
     @Autowired
     private UserSession userSession;
+    @Autowired
+    private DataSource dataSource;
     @Qualifier("managementOfRoleView")
     @Autowired
     private ConfigurationControllers.View viewRole;
@@ -83,8 +86,11 @@ public class AdminController {
     @Qualifier("managementDb")
     @Autowired
     private ConfigurationControllers.View viewDb;
+    @Qualifier("usbKeyView")
     @Autowired
-    private DataSource dataSource;
+    private ConfigurationControllers.View viewUsbKey;
+
+
     @Value(value = "classpath:reports/Statistics.xls")
     private Resource resource;
 
@@ -98,7 +104,7 @@ public class AdminController {
 
     @FXML
     public void initialize() {
-        //anchorPane.getStyleClass().addAll(Objects.requireNonNull(getClass().getClassLoader().getResource("css/MyStyle.css")).toExternalForm());
+
     }
 
     @PostConstruct
@@ -112,6 +118,7 @@ public class AdminController {
         managementOfAccess.setOnMouseClicked(event -> showManagementOfPrivilegeView());
         departmentBox.setOnAction(event -> searchOfDepartment());
         roleBox.setOnAction(event -> searchOfRole());
+        managementUsbKeys.setOnMouseClicked(event -> showManagementOfUsbView());
         managementDumpBD.setOnMouseClicked(event -> showManagementDumpDbView());
         statistics.setOnMouseClicked(event -> generateStatistics());
         initMainTableAndPostBox();
@@ -288,6 +295,7 @@ public class AdminController {
         try {
             String templateUrl = resource.getURL().toString().replace("file:/", "");
             StatisticsHelper.generateStatisticForAdmin(dataSource, templateUrl);
+            new Alert(Alert.AlertType.INFORMATION, "Статистика сохранена в документы").showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -310,6 +318,27 @@ public class AdminController {
             userFilteredList.setPredicate(user -> user.getUserRole().toString().equals(roleBox.getValue()));
             mainTable.setItems(userFilteredList);
         }
+    }
+
+    private void showManagementOfUsbView() {
+        List<User> userAdminList = userService.getAllUsers()
+                .stream()
+                .filter(user -> user.getUserRole().getRolename().equals("ADMIN"))
+                .collect(Collectors.toList());
+        Window window = null;
+        if (viewUsbKey.getView().getScene() != null) {
+            window = viewUsbKey.getView().getScene().getWindow();
+        }
+        Stage newStage = new Stage(StageStyle.UTILITY);
+        UsbKeyController usbKeyController = (UsbKeyController) viewUsbKey.getController();
+        AnchorPane view = (AnchorPane) this.viewUsbKey.getView();
+        usbKeyController.setStage(newStage);
+        usbKeyController.setUserObservableList(userAdminList);
+        newStage.setScene(window == null ? new Scene(view) : window.getScene());
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(mainTable.getScene().getWindow());
+        newStage.centerOnScreen();
+        newStage.show();
     }
 
     public void setStage(Stage stage) {

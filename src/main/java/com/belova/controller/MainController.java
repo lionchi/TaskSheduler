@@ -3,6 +3,7 @@ package com.belova.controller;
 import com.belova.common.UserSession;
 import com.belova.controller.configuration.ConfigurationControllers;
 import com.belova.entity.User;
+import com.belova.service.UsbKeyServiceImpl;
 import com.belova.service.UserServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -12,7 +13,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import java.io.File;
 import java.net.URL;
 
 public class MainController {
@@ -46,6 +51,8 @@ public class MainController {
     private UserSession userSession;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private UsbKeyServiceImpl usbKeyService;
 
     private Stage stage;
 
@@ -62,6 +69,12 @@ public class MainController {
     @PostConstruct
     public void init() {
         setImage();
+        logIn.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                login();
+                event.consume();
+            }
+        });
         logIn.setOnAction(event -> login());
     }
 
@@ -101,6 +114,10 @@ public class MainController {
 
     private void showWindowsOfUserOrAdmin() {
         if (userSession.getRoles().contains("ROLE_ADMIN")) {
+            if (!checkUsbKey()) {
+                new Alert(Alert.AlertType.ERROR, "Вы указали неверный usb ключ").showAndWait();
+                return;
+            }
             Window window = null;
             if (viewAdmin.getView().getScene() != null) {
                 window = viewAdmin.getView().getScene().getWindow();
@@ -111,7 +128,7 @@ public class MainController {
             adminController.setPrimaryStage(stage);
             adminController.setStage(newStage);
             newStage.setTitle("Администрирование");
-            newStage.setScene(window==null ? new Scene(view) : window.getScene());
+            newStage.setScene(window == null ? new Scene(view) : window.getScene());
             newStage.setResizable(true);
             newStage.centerOnScreen();
             newStage.show();
@@ -128,7 +145,7 @@ public class MainController {
             leadController.setStage(newStage);
             leadController.initMainTable(true);
             newStage.setTitle("Руководитель");
-            newStage.setScene(window==null ? new Scene(view) : window.getScene());
+            newStage.setScene(window == null ? new Scene(view) : window.getScene());
             newStage.setResizable(true);
             newStage.centerOnScreen();
             newStage.show();
@@ -145,7 +162,7 @@ public class MainController {
             userController.setStage(newStage);
             userController.initMainTable(true);
             newStage.setTitle("Руководитель");
-            newStage.setScene(window==null ? new Scene(view) : window.getScene());
+            newStage.setScene(window == null ? new Scene(view) : window.getScene());
             newStage.setResizable(true);
             newStage.centerOnScreen();
             newStage.show();
@@ -153,6 +170,18 @@ public class MainController {
         }
         loginField.clear();
         passwordField.clear();
+    }
+
+    private boolean checkUsbKey() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Выберите UsbKey");
+        try {
+            File dir = directoryChooser.showDialog(stage);
+            return usbKeyService.checkKey(dir, userSession.getLogin());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void setStage(Stage stage) {
