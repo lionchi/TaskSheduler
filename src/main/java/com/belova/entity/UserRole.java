@@ -1,6 +1,6 @@
 package com.belova.entity;
 
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 
 import javax.persistence.*;
 import javax.persistence.Entity;

@@ -3,12 +3,12 @@ package com.belova.entity;
 import com.belova.entity.enums.Complexity;
 import com.belova.entity.enums.Status;
 import com.belova.entity.enums.Type;
-import com.sun.istack.internal.NotNull;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -178,7 +178,7 @@ public class Task extends com.belova.entity.Entity {
     }
 
     public void setDeadlineP(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.mm.yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         this.deadlineP.set(simpleDateFormat.format(date));
     }
 

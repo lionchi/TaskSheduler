@@ -1,5 +1,6 @@
 package com.belova.controller;
 
+import com.belova.common.StatisticsHelper;
 import com.belova.common.UserSession;
 import com.belova.controller.configuration.ConfigurationControllers;
 import com.belova.entity.Task;
@@ -20,8 +21,12 @@ import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,6 +66,10 @@ public class LeadController {
     @Qualifier("managementOfTasks")
     @Autowired
     private ConfigurationControllers.View viewTasks;
+    @Autowired
+    private DataSource dataSource;
+    @Value(value = "classpath:reports/Statistics.xls")
+    private Resource resource;
 
     private Stage stage;
     private Stage primaryStage;
@@ -83,6 +92,7 @@ public class LeadController {
         addTask.setOnMouseClicked(event -> add());
         editTask.setOnMouseClicked(event -> edit());
         deleteTask.setOnMouseClicked(event -> delete());
+        statistics.setOnMouseClicked(event -> generateStatistics());
         changePass.setOnMouseClicked(event -> changePassword());
         logOut.setOnMouseClicked(event -> logout());
     }
@@ -191,6 +201,16 @@ public class LeadController {
         } else if (statusBox.getSelectionModel().getSelectedIndex() > -1) {
             taskFilteredList.setPredicate(task -> task.getStatus().toString().equals(statusBox.getValue()));
             mainTable.setItems(taskFilteredList);
+        }
+    }
+
+    private void generateStatistics() {
+        try {
+            User userByLogin = userService.findUserByLogin(userSession.getLogin());
+            String templateUrl = resource.getURL().toString().replace("file:/", "");
+            StatisticsHelper.generateStatisticForLeader(dataSource, userByLogin.getDepartment(), templateUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

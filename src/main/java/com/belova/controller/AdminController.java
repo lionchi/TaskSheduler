@@ -1,6 +1,6 @@
 package com.belova.controller;
 
-import com.belova.common.BackupData;
+import com.belova.common.StatisticsHelper;
 import com.belova.common.UserSession;
 import com.belova.controller.configuration.ConfigurationControllers;
 import com.belova.entity.Privilege;
@@ -22,10 +22,14 @@ import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -79,6 +83,10 @@ public class AdminController {
     @Qualifier("managementDb")
     @Autowired
     private ConfigurationControllers.View viewDb;
+    @Autowired
+    private DataSource dataSource;
+    @Value(value = "classpath:reports/Statistics.xls")
+    private Resource resource;
 
     private ObservableList<User> userObservableList = FXCollections.observableArrayList();
     private ObservableList<String> observableListForDepartmentBox = FXCollections.observableArrayList();
@@ -105,7 +113,7 @@ public class AdminController {
         departmentBox.setOnAction(event -> searchOfDepartment());
         roleBox.setOnAction(event -> searchOfRole());
         managementDumpBD.setOnMouseClicked(event -> showManagementDumpDbView());
-        //dumpBD.setOnMouseClicked(event -> b.backupDataWithOutDatabase("C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump.exe", "localhost", "3306", "root", "root","tasksheduler", "D:\\BackupMyDB\\"));
+        statistics.setOnMouseClicked(event -> generateStatistics());
         initMainTableAndPostBox();
     }
 
@@ -274,6 +282,15 @@ public class AdminController {
         newStage.initOwner(mainTable.getScene().getWindow());
         newStage.centerOnScreen();
         newStage.show();
+    }
+
+    private void generateStatistics() {
+        try {
+            String templateUrl = resource.getURL().toString().replace("file:/", "");
+            StatisticsHelper.generateStatisticForAdmin(dataSource, templateUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void searchOfDepartment() {
