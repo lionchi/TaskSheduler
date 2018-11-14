@@ -11,6 +11,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -115,6 +116,24 @@ public class UserController {
     }
 
     public void initMainTable(boolean isInitComboBox) {
+        mainTable.setRowFactory(param -> {
+            TableRow<Task> row = new TableRow<>();
+            row.itemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null && !newValue.isRead()) {
+                    row.setStyle("-fx-background-color: #ffd919;");
+                }
+            });
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
+                        && event.getClickCount() == 2) {
+                    tasksService.changeFlagRead(row.getItem().getId());
+                    new Alert(Alert.AlertType.INFORMATION, "Задача помечена, как прочитанная").showAndWait();
+                }
+            });
+            return row;
+        });
+
+
         List<Task> allDepartmentTasks = tasksService.getAllUserTasks(userSession.getId());
         observableListForTable.clear();
         observableListForTable.addAll(allDepartmentTasks);

@@ -51,6 +51,13 @@ public class Task extends com.belova.entity.Entity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotNull
+    @Column(name="createDate", nullable = false)
+    private Date createDate;
+
+    @Column(name = "isRead")
+    private Boolean isRead = false;
+
     @Transient
     private StringProperty nameP = new SimpleStringProperty();
     @Transient
@@ -140,7 +147,23 @@ public class Task extends com.belova.entity.Entity {
         setUserP(user);
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
 
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        this.isRead = read;
+    }
+
+    //Свойства для таблицы в ui
     public String getNameP() {
         return nameP.get();
     }
