@@ -5,6 +5,7 @@ import com.belova.entity.User;
 import com.belova.entity.enums.Complexity;
 import com.belova.entity.enums.Status;
 import com.belova.entity.enums.Type;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -101,32 +102,37 @@ public class TasksServiceImpl implements TasksService {
     @Override
     public Task findNewTask(Long userId) {
         User user = entityManager.find(User.class, userId);
-        Date currentDate = new Date();
         Optional<Task> findTask = user.getTasks()
                 .stream()
                 .filter(task -> !task.isRead() && compareToDate(task.getCreateDate(), new Date()))
-                .findFirst();
+                .findAny();
         return findTask.orElse(null);
     }
 
     private boolean compareToDate(Date createDate, Date currentDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        String formatToCreateDate = simpleDateFormat.format(createDate);
-        String formatToCurrentDate = simpleDateFormat.format(currentDate);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String formatToCreateDateFull = simpleDateFormat.format(createDate);
+        String formatToCurrentDateFull = simpleDateFormat.format(currentDate);
+        if (formatToCreateDateFull.equals(formatToCurrentDateFull)) {
+            simpleDateFormat = new SimpleDateFormat("HH:mm");
+            String formatToCreateDate = simpleDateFormat.format(createDate);
+            String formatToCurrentDate = simpleDateFormat.format(currentDate);
 
-        String[] splitToFormatCreateDate = formatToCreateDate.split(":");
-        Integer hourOfTheCreateDate = Integer.valueOf(splitToFormatCreateDate[0]);
-        Integer minuteOfTheCreateDate = Integer.valueOf(splitToFormatCreateDate[1]);
+            String[] splitToFormatCreateDate = formatToCreateDate.split(":");
+            Integer hourOfTheCreateDate = Integer.valueOf(splitToFormatCreateDate[0]);
+            Integer minuteOfTheCreateDate = Integer.valueOf(splitToFormatCreateDate[1]);
 
-        String[] splitToFormatCurrentDate = formatToCurrentDate.split(":");
-        Integer hourOfTheCurrentDate = Integer.valueOf(splitToFormatCurrentDate[0]);
-        Integer minuteOfTheCurrentDate = Integer.valueOf(splitToFormatCurrentDate[1]);
+            String[] splitToFormatCurrentDate = formatToCurrentDate.split(":");
+            Integer hourOfTheCurrentDate = Integer.valueOf(splitToFormatCurrentDate[0]);
+            Integer minuteOfTheCurrentDate = Integer.valueOf(splitToFormatCurrentDate[1]);
 
-        if (hourOfTheCreateDate.equals(hourOfTheCurrentDate)) {
-            int difference = minuteOfTheCurrentDate - minuteOfTheCreateDate;
-            return difference < 30;
-        } else {
-            return false;
+            if (hourOfTheCreateDate.equals(hourOfTheCurrentDate)) {
+                int difference = minuteOfTheCurrentDate - minuteOfTheCreateDate;
+                return difference < 30;
+            } else {
+                return false;
+            }
         }
+        return false;
     }
 }

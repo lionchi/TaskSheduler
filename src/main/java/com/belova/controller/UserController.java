@@ -1,5 +1,7 @@
 package com.belova.controller;
 
+import com.belova.common.Notification;
+import com.belova.common.StorageOfTask;
 import com.belova.common.UserSession;
 import com.belova.controller.configuration.ConfigurationControllers;
 import com.belova.entity.Task;
@@ -11,6 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -19,11 +22,14 @@ import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 import java.util.stream.Collectors;
 
 public class UserController {
@@ -40,6 +46,7 @@ public class UserController {
     public TableColumn<Task, String> quicklyColumn;
 
     public ComboBox<String> statusBox;
+    public CheckBox readCheckBox;
 
     @Autowired
     private TasksServiceImpl tasksService;
@@ -51,6 +58,14 @@ public class UserController {
     @Qualifier("statusView")
     @Autowired
     private ConfigurationControllers.View viewChangeStatus;
+    @Autowired
+    private ThreadPoolTaskScheduler taskScheduler;
+    @Autowired
+    private CronTrigger cronTrigger;
+    @Autowired
+    private Notification notification;
+    @Autowired
+    private StorageOfTask storageOfTask;
 
     private Stage stage;
     private Stage primaryStage;
@@ -70,6 +85,7 @@ public class UserController {
         editStatus.setOnMouseClicked(event -> edit());
         logOut.setOnMouseClicked(event -> logout());
         changePass.setOnMouseClicked(event -> changePassword());
+        readCheckBox.setOnAction(event -> searchOfRead());
     }
 
     private void edit() {
@@ -110,30 +126,13 @@ public class UserController {
     }
 
     private void logout() {
+        storageOfTask.clearAllOfClass(Notification.class);
         userSession.closeSession();
         stage.close();
         primaryStage.show();
     }
 
     public void initMainTable(boolean isInitComboBox) {
-        mainTable.setRowFactory(param -> {
-            TableRow<Task> row = new TableRow<>();
-            row.itemProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue != null && !newValue.isRead()) {
-                    row.setStyle("-fx-background-color: #ffd919;");
-                }
-            });
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
-                        && event.getClickCount() == 2) {
-                    tasksService.changeFlagRead(row.getItem().getId());
-                    new Alert(Alert.AlertType.INFORMATION, "Задача помечена, как прочитанная").showAndWait();
-                }
-            });
-            return row;
-        });
-
-
         List<Task> allDepartmentTasks = tasksService.getAllUserTasks(userSession.getId());
         observableListForTable.clear();
         observableListForTable.addAll(allDepartmentTasks);
@@ -145,7 +144,23 @@ public class UserController {
         quicklyColumn.setCellValueFactory(param -> param.getValue().QuicklyProperty());
         taskFilteredList = new FilteredList<>(observableListForTable, e -> true);
         mainTable.setItems(observableListForTable);
+        mainTable.setRowFactory(param -> {
+            TableRow<Task> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
+                        && event.getClickCount() == 2) {
+                    tasksService.changeFlagRead(row.getItem().getId());
+                    new Alert(Alert.AlertType.INFORMATION, "Задача помечена, как прочитанная").showAndWait();
+                    initMainTable(false);
+                    taskFilteredList.setPredicate(task -> !task.isRead());
+                    mainTable.setItems(taskFilteredList);
+                }
+            });
+            return row;
+        });
         if (isInitComboBox) initComboBox();
+        ScheduledFuture<?> schedule = taskScheduler.schedule(notification, cronTrigger);
+        storageOfTask.put(Notification.class, schedule);
     }
 
     private void initComboBox() {
@@ -166,6 +181,15 @@ public class UserController {
                 taskFilteredList.setPredicate(task -> task.getStatus().toString().equals(statusBox.getValue()));
                 mainTable.setItems(taskFilteredList);
             }
+        }
+    }
+
+    private void searchOfRead() {
+        if (!readCheckBox.isSelected()) {
+            mainTable.setItems(observableListForTable);
+        } else if (readCheckBox.isSelected()) {
+            taskFilteredList.setPredicate(task -> !task.isRead());
+            mainTable.setItems(taskFilteredList);
         }
     }
 

@@ -37,7 +37,7 @@ public class User extends com.belova.entity.Entity {
     @Column(name = "enabled", nullable = false)
     private Integer enabled;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private List<Task> tasks;
 
     @ManyToOne

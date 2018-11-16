@@ -1,7 +1,7 @@
 package com.belova.controller;
 
 import com.belova.common.BackupData;
-import com.belova.common.StorageTask;
+import com.belova.common.StorageOfTask;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -47,7 +47,7 @@ public class ManagementDbController {
     @Autowired
     private CronTrigger cronTrigger;
     @Autowired
-    private StorageTask storageTask;
+    private StorageOfTask storageOfTask;
 
     private Stage stage;
 
@@ -74,18 +74,18 @@ public class ManagementDbController {
         }
         ScheduledFuture<?> schedule = taskScheduler.schedule(new BackupData(pathDumpField.getText(), pathSaveField.getText() + "\\",
                 user, password, host, port, database), cronTrigger);
-        storageTask.put(BackupData.class, schedule);
+        storageOfTask.put(BackupData.class, schedule);
         startItem.setDisable(true);
         stopItem.setDisable(false);
         new Alert(Alert.AlertType.INFORMATION, "Задача резервирования успешна запущена").showAndWait();
     }
 
     private void stop() {
-        ScheduledFuture<?> value = storageTask.getValue(BackupData.class);
+        ScheduledFuture<?> value = storageOfTask.getValue(BackupData.class);
         if (!value.isCancelled()) {
             value.cancel(true);
         }
-        storageTask.remove(BackupData.class);
+        storageOfTask.remove(BackupData.class);
         startItem.setDisable(false);
         stopItem.setDisable(true);
         new Alert(Alert.AlertType.INFORMATION, "Задача резервирования успешна остановлена").showAndWait();
@@ -116,7 +116,7 @@ public class ManagementDbController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-        if (storageTask.contains(BackupData.class)) {
+        if (storageOfTask.contains(BackupData.class)) {
             startItem.setDisable(true);
             stopItem.setDisable(false);
         } else {
