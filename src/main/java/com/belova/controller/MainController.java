@@ -143,7 +143,7 @@ public class MainController {
             AnchorPane view = (AnchorPane) this.viewLead.getView();
             leadController.setPrimaryStage(stage);
             leadController.setStage(newStage);
-            leadController.initMainTable(true);
+            leadController.initMainTable(true, true);
             newStage.setTitle("Руководитель");
             newStage.setScene(window == null ? new Scene(view) : window.getScene());
             newStage.setResizable(true);
@@ -160,7 +160,7 @@ public class MainController {
             AnchorPane view = (AnchorPane) this.viewUser.getView();
             userController.setPrimaryStage(stage);
             userController.setStage(newStage);
-            userController.initMainTable(true);
+            userController.initMainTable(true, true);
             newStage.setTitle("Руководитель");
             newStage.setScene(window == null ? new Scene(view) : window.getScene());
             newStage.setResizable(true);

@@ -17,7 +17,7 @@ public class RoleServiceImpl implements RoleService {
     private EntityManager entityManager;
 
     @Override
-    @PreAuthorize(("hasRole('ROLE_ADMIN')"))
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_LEAD')")
     public List<UserRole> getAllRoles() {
         List<UserRole> userRoles = entityManager.createQuery("select r from UserRole as r", UserRole.class).getResultList();
         return  userRoles;

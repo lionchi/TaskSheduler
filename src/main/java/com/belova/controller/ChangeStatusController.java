@@ -42,7 +42,7 @@ public class ChangeStatusController {
     private void changeStatus() {
         tasksService.changeStatus(currentTask.getId(), statusBox.getValue());
         new Alert(Alert.AlertType.INFORMATION, "Статус успешно изменен").showAndWait();
-        userController.initMainTable(false);
+        userController.initMainTable(false, false);
         stage.close();
     }
 

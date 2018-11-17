@@ -1,5 +1,6 @@
 package com.belova.controller;
 
+import com.belova.common.UserSession;
 import com.belova.entity.User;
 import com.belova.entity.UserRole;
 import com.belova.service.UserServiceImpl;
@@ -10,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -29,9 +31,13 @@ public class ManagementUserController {
     private UserServiceImpl userService;
     @Autowired
     private AdminController adminController;
+    @Autowired
+    private LeadController leadController;
+    @Autowired
+    private UserSession userSession;
 
     private Stage stage;
-    private boolean isAdd;
+    private boolean isLead;
     private User editUser;
     private List<UserRole> userRoleList;
     private ObservableList<UserRole> observableList = FXCollections.observableArrayList();
@@ -62,8 +68,7 @@ public class ManagementUserController {
     }
 
     public void setAdd(boolean add) {
-        isAdd = add;
-        if (isAdd) {
+        if (add) {
             this.add.setText("Добавить");
             this.add.setOnAction(event -> addUser());
             isActive.setVisible(false);
@@ -75,29 +80,29 @@ public class ManagementUserController {
     }
 
     private void addUser() {
-        if (ObjectUtils.allNotNull(fioField.getText(), loginField.getText(), postField.getText(), departmentField.getText())
-                && !org.springframework.util.ObjectUtils.isEmpty(new String[]{fioField.getText(), loginField.getText(), postField.getText(), departmentField.getText()})
-                && chooseRole.getSelectionModel().getSelectedIndex() > -1) {
+        if (ObjectUtils.allNotNull(fioField.getText(), loginField.getText(), postField.getText(), departmentField.getText(), chooseRole.getSelectionModel().getSelectedItem())
+                && !org.springframework.util.ObjectUtils.isEmpty(new String[]{fioField.getText(), loginField.getText(), postField.getText(), departmentField.getText()})) {
             String password = userService.addUser(fioField.getText(), loginField.getText(), postField.getText(),
                     departmentField.getText(), chooseRole.getSelectionModel().getSelectedItem());
             new Alert(Alert.AlertType.INFORMATION, String.format("Пользователь %s успешно добавлен. Сгенерированный пароль %s", fioField.getText(), password)).showAndWait();
             clearAllField(fioField, loginField, postField, departmentField);
             chooseRole.getSelectionModel().clearSelection();
             chooseRole.setValue(null);
-            adminController.initMainTableAndPostBox();
+            if (!isLead) adminController.initMainTableAndPostBox();
+            else leadController.initMainTable(true, false);
         } else {
             new Alert(Alert.AlertType.ERROR, "Заполните все поля").showAndWait();
         }
     }
 
     private void editUser() {
-        if (ObjectUtils.allNotNull(fioField.getText(), loginField.getText(), postField.getText(), departmentField.getText())
-                && !org.springframework.util.ObjectUtils.isEmpty(new String[]{fioField.getText(), loginField.getText(), postField.getText(), departmentField.getText()})
-                && chooseRole.getSelectionModel().getSelectedIndex() > -1) {
+        if (ObjectUtils.allNotNull(fioField.getText(), loginField.getText(), postField.getText(), departmentField.getText(), chooseRole.getSelectionModel().getSelectedItem())
+                && !org.springframework.util.ObjectUtils.isEmpty(new String[]{fioField.getText(), loginField.getText(), postField.getText(), departmentField.getText()})) {
             userService.editUser(editUser, fioField.getText(), loginField.getText(), postField.getText(),
                     departmentField.getText(), isActive.isSelected() ? 1 : 0, chooseRole.getSelectionModel().getSelectedItem());
             clearAllField(fioField, loginField, postField, departmentField);
-            adminController.initMainTableAndPostBox();
+            if (!isLead) adminController.initMainTableAndPostBox();
+            else leadController.initMainTable(true, false);
             stage.close();
         } else {
             new Alert(Alert.AlertType.ERROR, "Заполните все поля").showAndWait();
@@ -117,6 +122,14 @@ public class ManagementUserController {
     public void setUserRoleList(List<UserRole> userRoleList) {
         this.userRoleList = userRoleList;
         initComboBox();
+    }
+
+    public void setLead(boolean lead, String department) {
+        isLead = lead;
+        if (department != null) {
+            departmentField.setText(department);
+        }
+        departmentField.setEditable(false);
     }
 
     public void setEditUser(User editUser) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -10,11 +11,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" fx:controller="com.belova.controller.UserController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="647.0" prefWidth="947.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="700.0" prefWidth="950.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.UserController">
     <children>
-        <Pane fx:id="extraPane" layoutX="668.0" prefHeight="647.0" prefWidth="279.0" styleClass="pane">
+        <Pane fx:id="extraPane" layoutX="668.0" prefHeight="700.0" prefWidth="280.0" styleClass="pane">
             <children>
-                <Label fx:id="changePass" layoutX="14.0" layoutY="501.0" styleClass="button1" text="ИЗМЕНИТЬ ПАРОЛЬ" textFill="WHITE">
+                <Label fx:id="changePass" layoutX="16.0" layoutY="614.0" styleClass="button1" text="ИЗМЕНИТЬ ПАРОЛЬ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -25,7 +26,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-                <Label fx:id="logOut" layoutX="14.0" layoutY="563.0" styleClass="button1" text="СМЕНИТЬ УЧЕТНУЮ ЗАПИСЬ" textFill="WHITE">
+                <Label fx:id="logOut" layoutX="16.0" layoutY="676.0" styleClass="button1" text="СМЕНИТЬ УЧЕТНУЮ ЗАПИСЬ" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="20.0" />
                     </font>
@@ -36,7 +37,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Label>
-            <Label fx:id="editStatus" layoutX="16.0" layoutY="53.0" styleClass="button1" text="ИЗМЕНИТЬ СТАТУС" textFill="WHITE">
+            <Label fx:id="editStatus" layoutX="16.0" layoutY="162.0" styleClass="button1" text="ИЗМЕНИТЬ СТАТУС" textFill="WHITE">
                <font>
                   <Font name="Impact" size="20.0" />
                </font>
@@ -49,7 +50,7 @@
             </Label>
             </children>
         </Pane>
-        <TableView fx:id="mainTable" layoutX="24.0" layoutY="130.0" prefHeight="482.0" prefWidth="623.0" styleClass="column-header" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="130.0">
+        <TableView fx:id="mainTable" layoutX="24.0" layoutY="162.0" prefHeight="482.0" prefWidth="623.0" styleClass="column-header" AnchorPane.bottomAnchor="3.0" AnchorPane.topAnchor="162.0">
             <columns>
                 <TableColumn fx:id="nameColumn" minWidth="30.0" prefWidth="140.0" text="НАИМЕНОВАНИЕ" />
                 <TableColumn fx:id="deadlineColumn" prefWidth="110.0" text="СРОК СДАЧИ" />
@@ -67,8 +68,8 @@
                 <DropShadow height="63.37" radius="27.005" width="46.65" />
             </effect>
         </Label>
-      <ComboBox fx:id="statusBox" layoutX="24.0" layoutY="65.0" prefHeight="31.0" prefWidth="266.0" styleClass="combo-box" stylesheets="@../css/MyStyle.css" />
-      <Label layoutX="24.0" layoutY="33.0" text="СТАТУС" textFill="WHITE">
+      <ComboBox fx:id="statusBox" layoutX="24.0" layoutY="45.0" prefHeight="31.0" prefWidth="266.0" styleClass="combo-box" stylesheets="@../css/MyStyle.css" />
+      <Label layoutX="24.0" layoutY="13.0" text="СТАТУС" textFill="WHITE">
          <font>
             <Font name="Impact" size="20.0" />
          </font>
@@ -76,5 +77,10 @@
             <DropShadow height="63.37" radius="27.005" width="46.65" />
          </effect>
       </Label>
+      <CheckBox fx:id="readCheckBox" layoutX="23.0" layoutY="105.0" mnemonicParsing="false" style="-fx-text-fill: white;" styleClass="label" stylesheets="@../css/MyStyle.css" text="Показывать только непрочитанные задачи">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </CheckBox>
     </children>
 </AnchorPane>

@@ -47,9 +47,16 @@ public class Task extends com.belova.entity.Entity {
     private Type type;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;
+
+    @NotNull
+    @Column(name = "createDate", nullable = false)
+    private Date createDate;
+
+    @Column(name = "isRead")
+    private Boolean isRead = false;
 
     @Transient
     private StringProperty nameP = new SimpleStringProperty();
@@ -65,6 +72,9 @@ public class Task extends com.belova.entity.Entity {
     private StringProperty typeP = new SimpleStringProperty();
     @Transient
     private StringProperty userP = new SimpleStringProperty();
+    @Transient
+    private StringProperty readP = new SimpleStringProperty();
+
 
     public Task() {
     }
@@ -140,7 +150,24 @@ public class Task extends com.belova.entity.Entity {
         setUserP(user);
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
 
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        this.isRead = read;
+        setReadP(read);
+    }
+
+    //Свойства для таблицы в ui
     public String getNameP() {
         return nameP.get();
     }
@@ -230,6 +257,22 @@ public class Task extends com.belova.entity.Entity {
         this.userP.set(user.toString());
     }
 
+    public String getReadP() {
+        return readP.get();
+    }
+
+    public StringProperty ReadProperty() {
+        return readP;
+    }
+
+    public void setReadP(Boolean read) {
+        if (read.equals(Boolean.TRUE)) {
+            this.readP.set("Да");
+        } else {
+            this.readP.set("Нет");
+        }
+    }
+
     public void initProperty() {
         this.setNameP(this.getName());
         this.setComplexityP(this.getComplexity());
@@ -238,5 +281,6 @@ public class Task extends com.belova.entity.Entity {
         this.setStatusP(this.getStatus());
         this.setTypeP(this.getType());
         this.setUserP(this.getUser());
+        this.setReadP(this.isRead());
     }
 }

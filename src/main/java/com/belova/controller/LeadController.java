@@ -1,11 +1,15 @@
 package com.belova.controller;
 
+import com.belova.common.Notification;
 import com.belova.common.StatisticsHelper;
+import com.belova.common.StorageOfTask;
 import com.belova.common.UserSession;
 import com.belova.controller.configuration.ConfigurationControllers;
 import com.belova.entity.Task;
 import com.belova.entity.User;
+import com.belova.entity.UserRole;
 import com.belova.entity.enums.Status;
+import com.belova.service.RoleServiceImpl;
 import com.belova.service.TasksServiceImpl;
 import com.belova.service.UserServiceImpl;
 import javafx.collections.FXCollections;
@@ -23,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -32,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ScheduledFuture;
 import java.util.stream.Collectors;
 
 public class LeadController {
@@ -41,6 +48,9 @@ public class LeadController {
     public Label changePass;
     public Label logOut;
     public Label addTask;
+    public Label addUserInDepartmentLabel;
+    public Label changeUserLabel;
+    public Label deleteUserInDepartmentLabel;
 
     public TableView<Task> mainTable;
     public TableColumn<Task, String> fioColumn;
@@ -59,6 +69,8 @@ public class LeadController {
     @Autowired
     private UserServiceImpl userService;
     @Autowired
+    private RoleServiceImpl roleService;
+    @Autowired
     private UserSession userSession;
     @Qualifier("passwordController")
     @Autowired
@@ -66,8 +78,20 @@ public class LeadController {
     @Qualifier("managementOfTasks")
     @Autowired
     private ConfigurationControllers.View viewTasks;
+    @Qualifier("managementOfUserView")
+    @Autowired
+    private ConfigurationControllers.View viewUser;
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private ThreadPoolTaskScheduler taskScheduler;
+    @Autowired
+    private CronTrigger cronTrigger;
+    @Autowired
+    private Notification notification;
+    @Autowired
+    private StorageOfTask storageOfTask;
+
     @Value(value = "classpath:reports/Statistics.xls")
     private Resource resource;
 
@@ -95,6 +119,9 @@ public class LeadController {
         statistics.setOnMouseClicked(event -> generateStatistics());
         changePass.setOnMouseClicked(event -> changePassword());
         logOut.setOnMouseClicked(event -> logout());
+        addUserInDepartmentLabel.setOnMouseClicked(event -> addUserInDepartment());
+        changeUserLabel.setOnMouseClicked(event -> changeUser());
+        deleteUserInDepartmentLabel.setOnMouseClicked(event -> deleteUserInDepartment());
     }
 
     private void add() {
@@ -128,7 +155,74 @@ public class LeadController {
         newStage.show();
     }
 
-    public void initMainTable(boolean isInitComboBox) {
+    private void changeUser() {
+        if (fioBox.getSelectionModel().getSelectedItem() != null) {
+            if (fioBox.getSelectionModel().getSelectedItem().equals(userSession.getFio())) {
+                new Alert(Alert.AlertType.ERROR, "Вы не можете изменять самого себя")
+                        .showAndWait();
+            } else if (fioBox.getSelectionModel().getSelectedItem() != null) {
+                showManagementOfUserView(false);
+            }
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Выберите пользователя в поле 'ФИО сотрудника' для изменения")
+                    .showAndWait();
+        }
+    }
+
+    private void addUserInDepartment() {
+        showManagementOfUserView(true);
+    }
+
+    private void showManagementOfUserView(boolean isAdd) {
+        List<UserRole> rolesWithoutRoleAdmin = roleService.getAllRoles()
+                .stream()
+                .filter(userRole -> !userRole.getRolename().toLowerCase().equals("admin") &&
+                        !userRole.getRolename().toLowerCase().equals("lead"))
+                .collect(Collectors.toList());
+        Window window = null;
+        if (viewUser.getView().getScene() != null) {
+            window = viewUser.getView().getScene().getWindow();
+        }
+        Stage newStage = new Stage(StageStyle.UTILITY);
+        ManagementUserController managementUserController = (ManagementUserController) viewUser.getController();
+        AnchorPane view = (AnchorPane) this.viewUser.getView();
+        managementUserController.setStage(newStage);
+        managementUserController.setUserRoleList(rolesWithoutRoleAdmin);
+        managementUserController.setAdd(isAdd);
+        if (isAdd) {
+            managementUserController.setLead(true, userService.getDepartmentCurrentUser(userSession.getId()));
+        } else {
+            User selectUser = userService.findUserByFio(fioBox.getSelectionModel().getSelectedItem());
+            managementUserController.setLead(true, null);
+            managementUserController.setEditUser(selectUser);
+        }
+        newStage.setScene(window == null ? new Scene(view) : window.getScene());
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(mainTable.getScene().getWindow());
+        newStage.centerOnScreen();
+        newStage.show();
+    }
+
+    private void deleteUserInDepartment() {
+        Alert alertApproval = new Alert(Alert.AlertType.WARNING, "Вы точно хотите удалить пользователя?");
+        alertApproval.setTitle("WARNING!");
+        alertApproval.setHeaderText(null);
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alertApproval.getButtonTypes().addAll(buttonTypeCancel);
+        Optional<ButtonType> result = alertApproval.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            if (fioBox.getSelectionModel().getSelectedItem() == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Выберите пользователя для удаления");
+                alert.showAndWait();
+                return;
+            }
+            userService.deleteUser(fioBox.getSelectionModel().getSelectedItem());
+            mainTable.getItems().remove(mainTable.getSelectionModel().getSelectedItem());
+        }
+        initMainTable(true, false);
+    }
+
+    public void initMainTable(boolean isInitComboBox, boolean startThreadToNotification) {
         List<Task> allDepartmentTasks = tasksService.getAllDepartmentTasks(userSession.getId());
         observableListForTable.clear();
         observableListForTable.addAll(allDepartmentTasks);
@@ -142,6 +236,10 @@ public class LeadController {
         taskFilteredList = new FilteredList<>(observableListForTable, e -> true);
         mainTable.setItems(observableListForTable);
         if (isInitComboBox) initComboBox();
+        if (startThreadToNotification) {
+            ScheduledFuture<?> schedule = taskScheduler.schedule(notification, cronTrigger);
+            storageOfTask.put(Notification.class, schedule);
+        }
     }
 
     private void initComboBox() {
@@ -183,11 +281,11 @@ public class LeadController {
             }
             mainTable.getItems().remove(mainTable.getSelectionModel().getSelectedItem());
         }
-        initMainTable(false);
+        initMainTable(false, false);
     }
 
     private void searchOfUser() {
-        if (fioBox.getValue().equals(" ")) {
+        if (fioBox.getValue() == null || fioBox.getValue().equals(" ")) {
             mainTable.setItems(observableListForTable);
         } else if (fioBox.getSelectionModel().getSelectedIndex() > -1) {
             taskFilteredList.setPredicate(task -> task.getUser().toString().equals(fioBox.getValue()));
@@ -232,6 +330,7 @@ public class LeadController {
     }
 
     private void logout() {
+        storageOfTask.clearAllOfClass(Notification.class);
         userSession.closeSession();
         stage.close();
         primaryStage.show();

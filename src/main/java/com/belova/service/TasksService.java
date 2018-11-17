@@ -21,4 +21,8 @@ public interface TasksService {
     void deleteTask(Task task, User removingOfUser);
 
     void changeStatus (Long id, Status newStatus);
+
+    void changeFlagRead (Long taskId);
+
+    Task findNewTask (Long userId);
 }

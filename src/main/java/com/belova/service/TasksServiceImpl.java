@@ -5,14 +5,19 @@ import com.belova.entity.User;
 import com.belova.entity.enums.Complexity;
 import com.belova.entity.enums.Status;
 import com.belova.entity.enums.Type;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -55,6 +60,7 @@ public class TasksServiceImpl implements TasksService {
         newTask.setQuickly(isQuickly);
         newTask.setDescription(description);
         newTask.setName(name);
+        newTask.setCreateDate(new Date());
         entityManager.persist(newTask);
     }
 
@@ -85,5 +91,48 @@ public class TasksServiceImpl implements TasksService {
     public void changeStatus(Long id, Status newStatus) {
         Task task = entityManager.find(Task.class, id);
         task.setStatus(newStatus);
+    }
+
+    @Override
+    public void changeFlagRead(Long taskId) {
+        Task task = entityManager.find(Task.class, taskId);
+        task.setRead(true);
+    }
+
+    @Override
+    public Task findNewTask(Long userId) {
+        User user = entityManager.find(User.class, userId);
+        Optional<Task> findTask = user.getTasks()
+                .stream()
+                .filter(task -> !task.isRead() && compareToDate(task.getCreateDate(), new Date()))
+                .findAny();
+        return findTask.orElse(null);
+    }
+
+    private boolean compareToDate(Date createDate, Date currentDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String formatToCreateDateFull = simpleDateFormat.format(createDate);
+        String formatToCurrentDateFull = simpleDateFormat.format(currentDate);
+        if (formatToCreateDateFull.equals(formatToCurrentDateFull)) {
+            simpleDateFormat = new SimpleDateFormat("HH:mm");
+            String formatToCreateDate = simpleDateFormat.format(createDate);
+            String formatToCurrentDate = simpleDateFormat.format(currentDate);
+
+            String[] splitToFormatCreateDate = formatToCreateDate.split(":");
+            Integer hourOfTheCreateDate = Integer.valueOf(splitToFormatCreateDate[0]);
+            Integer minuteOfTheCreateDate = Integer.valueOf(splitToFormatCreateDate[1]);
+
+            String[] splitToFormatCurrentDate = formatToCurrentDate.split(":");
+            Integer hourOfTheCurrentDate = Integer.valueOf(splitToFormatCurrentDate[0]);
+            Integer minuteOfTheCurrentDate = Integer.valueOf(splitToFormatCurrentDate[1]);
+
+            if (hourOfTheCreateDate.equals(hourOfTheCurrentDate)) {
+                int difference = minuteOfTheCurrentDate - minuteOfTheCreateDate;
+                return difference < 30;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }

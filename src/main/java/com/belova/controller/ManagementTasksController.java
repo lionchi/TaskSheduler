@@ -79,7 +79,7 @@ public class ManagementTasksController {
             nameField.clear();
             description.clear();
             deadline.setValue(null);
-            leadController.initMainTable(false);
+            leadController.initMainTable(false, false);
         } else {
             new Alert(Alert.AlertType.ERROR, "Заполните все поля").showAndWait();
         }
@@ -97,7 +97,7 @@ public class ManagementTasksController {
             } catch (AccessDeniedException accessDeniedException) {
                 new Alert(Alert.AlertType.ERROR, "У вас недостаточно прав доступа").showAndWait();
             }
-            leadController.initMainTable(false);
+            leadController.initMainTable(false, false);
             stage.close();
         } else {
             new Alert(Alert.AlertType.ERROR, "Заполните все поля").showAndWait();

@@ -32,6 +32,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_LEAD')")
+    public User findUserByFio(String fio) {
+        User user = entityManager.createQuery("select u from User as u where u.fio = :fio", User.class)
+                .setParameter("fio", fio)
+                .getSingleResult();
+        return user;
+    }
+
+    @Override
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<User> getAllUsers() {
         List<User> users = entityManager.createQuery("select u from User as u", User.class)
                 .getResultList();
@@ -40,6 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_LEAD')")
     public List<User> getAllDepartmentUsers(Long id) {
         User user = entityManager.find(User.class, id);
         return entityManager.createQuery("select u from User as u where u.department = :department and u.userRole.rolename <> :rolename", User.class)
@@ -49,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_LEAD')")
     public String addUser(String fio, String login, String post, String department, UserRole role) {
         String password = generatedPassword();
         User newUser = new User();
@@ -65,7 +76,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_LEAD')")
     public void editUser(User editUser, String fio, String login, String post, String department, Integer enabled, UserRole role) {
         User merge = entityManager.merge(editUser);
         merge.setUserRole(role);
@@ -77,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_LEAD')")
     public void deleteUser(String fio) {
         User user = entityManager.createQuery("select u from User as u where u.fio = :fio", User.class)
                 .setParameter("fio", fio)
@@ -92,6 +103,12 @@ public class UserServiceImpl implements UserService {
         if (user.getPassword().equals(oldPass)) {
             user.setPassword(MD5.crypt(newPass));
         }
+    }
+
+    @Override
+    public String getDepartmentCurrentUser(Long userId) {
+        User user = entityManager.find(User.class, userId);
+        return user.getDepartment();
     }
 
     private String generatedPassword() {
