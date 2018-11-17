@@ -10,6 +10,8 @@ public interface UserService {
 
     User findUserByLogin (String login);
 
+    User findUserByFio (String fio);
+
     List<User> getAllUsers ();
 
     List<User> getAllDepartmentUsers (Long id);
@@ -21,4 +23,6 @@ public interface UserService {
     void deleteUser (String fio);
 
     void changePassword(String oldPass, String newPass);
+
+    String getDepartmentCurrentUser (Long userId);
 }

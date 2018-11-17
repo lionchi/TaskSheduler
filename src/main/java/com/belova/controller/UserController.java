@@ -132,7 +132,7 @@ public class UserController {
         primaryStage.show();
     }
 
-    public void initMainTable(boolean isInitComboBox) {
+    public void initMainTable(boolean isInitComboBox, boolean startThreadToNotification) {
         List<Task> allDepartmentTasks = tasksService.getAllUserTasks(userSession.getId());
         observableListForTable.clear();
         observableListForTable.addAll(allDepartmentTasks);
@@ -151,7 +151,7 @@ public class UserController {
                         && event.getClickCount() == 2) {
                     tasksService.changeFlagRead(row.getItem().getId());
                     new Alert(Alert.AlertType.INFORMATION, "Задача помечена, как прочитанная").showAndWait();
-                    initMainTable(false);
+                    initMainTable(false, false);
                     taskFilteredList.setPredicate(task -> !task.isRead());
                     mainTable.setItems(taskFilteredList);
                 }
@@ -159,8 +159,10 @@ public class UserController {
             return row;
         });
         if (isInitComboBox) initComboBox();
-        ScheduledFuture<?> schedule = taskScheduler.schedule(notification, cronTrigger);
-        storageOfTask.put(Notification.class, schedule);
+        if (startThreadToNotification) {
+            ScheduledFuture<?> schedule = taskScheduler.schedule(notification, cronTrigger);
+            storageOfTask.put(Notification.class, schedule);
+        }
     }
 
     private void initComboBox() {
