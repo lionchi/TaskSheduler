@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Lazy;
 @Import({ConfigurationControllers.class, ThreadPoolTaskSchedulerConfig.class})
 public class Application extends AbstractJavaFxApplicationSupport {
 
-    @Value("${ui.title:JavaFX приложение}")
+    @Value("Авторизация")
     private String windowTitle;
 
     @Qualifier("mainView")

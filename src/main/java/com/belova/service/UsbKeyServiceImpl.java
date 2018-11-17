@@ -3,6 +3,8 @@ package com.belova.service;
 import com.belova.common.MD5;
 import com.belova.entity.UsbKey;
 import com.belova.entity.User;
+import org.apache.commons.text.CharacterPredicates;
+import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,12 +26,26 @@ public class UsbKeyServiceImpl implements UsbKeyService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void addUsbKey(String serialNumber, String path, User user) {
+    public void addUsbKey(String path, User user){
         UsbKey usbKey = new UsbKey();
-        usbKey.setSerialNumber(serialNumber);
+        String sequence_key = MD5.crypt(generatedKey());
+        usbKey.setKey(sequence_key);
+        String fileData = sequence_key;
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(path + "//"+"configuration");
+            fos.write(fileData.getBytes());
+            fos.flush();
+            fos.close();
+            String command = "C:\\WINDOWS\\System32\\ATTRIB.EXE +H +R "+path + "//"+"configuration";
+            Runtime.getRuntime().exec(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         if (path != null && !path.equals("")) {
             try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                 FileInputStream fileInputStream = new FileInputStream(new File(path))) {
+                 FileInputStream fileInputStream = new FileInputStream(new File(path+ "//"+"configuration"))) {
                 int len;
                 byte[] data = new byte[1024];
 
@@ -64,7 +80,7 @@ public class UsbKeyServiceImpl implements UsbKeyService {
             }
         }
         UsbKey usbKey = entityManager.find(UsbKey.class, userByLogin.getUsbKey().getId());
-        return builder.toString().equals(MD5.crypt(usbKey.getSerialNumber()));
+        return builder.toString().equals(usbKey.getKey());
     }
 
     @Override
@@ -76,4 +92,12 @@ public class UsbKeyServiceImpl implements UsbKeyService {
             return true;
         } else return false;
     }
+    private String generatedKey() {
+        RandomStringGenerator randomStringGenerator = new RandomStringGenerator.Builder()
+                .withinRange('0', 'z')
+                .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
+                .build();
+        return randomStringGenerator.generate(15);
+    }
 }
+

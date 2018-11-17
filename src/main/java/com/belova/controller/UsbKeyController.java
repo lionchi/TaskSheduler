@@ -9,11 +9,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import javax.swing.*;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.List;
@@ -47,9 +48,8 @@ public class UsbKeyController {
     }
 
     private void ok() {
-        if (ObjectUtils.allNotNull(serialNumber.getText(), checkUser.getValue())
-                && !org.springframework.util.ObjectUtils.isEmpty(new String[]{serialNumber.getText()})) {
-            usbKeyService.addUsbKey(serialNumber.getText(), filePath.getText(), checkUser.getValue());
+        if (ObjectUtils.allNotNull(checkUser.getValue())) {
+            usbKeyService.addUsbKey(filePath.getText(), checkUser.getValue());
             serialNumber.clear();
             filePath.clear();
             checkUser.getSelectionModel().clearSelection();
@@ -73,13 +73,17 @@ public class UsbKeyController {
     }
 
 
-    private void showExplorerFile() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Выберите файл ключ");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("EXE", "*.exe"));
+    private void showExplorerFile()  {
+        //FileChooser fileChooser = new FileChooser();
+        //fileChooser.setTitle("Выберите usb-ключ");
+        //fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("EXE", "*.exe"));
+        DirectoryChooser dirChooser = new DirectoryChooser();
+        dirChooser.setTitle("Выберите usb-ключ");
+
         try {
-            File file = fileChooser.showOpenDialog(stage);
-            filePath.setText(file.getAbsolutePath());
+            //File file = fileChooser.showOpenDialog(stage);
+            File result = dirChooser.showDialog(stage);
+            filePath.setText(result.getAbsolutePath());
         } catch (NullPointerException e) {
         }
 
