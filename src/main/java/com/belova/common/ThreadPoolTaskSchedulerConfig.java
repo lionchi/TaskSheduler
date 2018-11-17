@@ -17,9 +17,14 @@ public class ThreadPoolTaskSchedulerConfig {
         return threadPoolTaskScheduler;
     }
 
-    @Bean
-    public CronTrigger cronTrigger() {
+    @Bean(name = "cronTriggerToBackupData")
+    public CronTrigger cronTriggerToBackupData() {
         //return new CronTrigger("0 0/2 * * * MON-FRI");
         return new CronTrigger("*/15 * * * * MON-FRI");
+    }
+
+    @Bean(name = "cronTriggerToNotification")
+    public CronTrigger cronTriggerToNotification() {
+        return new CronTrigger("0 0/1 * * * *");
     }
 }

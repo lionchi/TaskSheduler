@@ -24,10 +24,9 @@ public class Notification implements Runnable {
         if (newTask != null) {
             Platform.runLater(() -> {
                 TrayNotification trayNotification = new TrayNotification();
-                trayNotification.setTitle("Новая задача");
-                trayNotification.setMessage(String.format("Наименование задачи: %s. " +
-                                "Статус: %s. ",
-                        newTask.getName(), newTask.getStatus().getValue()));
+                trayNotification.setTitle("Новая задача: " + newTask.getName());
+                trayNotification.setMessage(String.format("Статус: %s. Срочно: %s",
+                        newTask.getStatus().getValue(), newTask.getQuickly() ? "Да" : "Нет"));
                 trayNotification.setNotificationType(NotificationType.INFORMATION);
                 trayNotification.setOnShown(event -> {
                     Media hit = new Media(Application.class.getResource("/sounds/notification_sound.mp3").toString());

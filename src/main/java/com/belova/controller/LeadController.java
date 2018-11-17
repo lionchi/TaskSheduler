@@ -33,7 +33,6 @@ import org.springframework.scheduling.support.CronTrigger;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -86,7 +85,7 @@ public class LeadController {
     @Autowired
     private ThreadPoolTaskScheduler taskScheduler;
     @Autowired
-    private CronTrigger cronTrigger;
+    private CronTrigger cronTriggerToNotification;
     @Autowired
     private Notification notification;
     @Autowired
@@ -237,7 +236,7 @@ public class LeadController {
         mainTable.setItems(observableListForTable);
         if (isInitComboBox) initComboBox();
         if (startThreadToNotification) {
-            ScheduledFuture<?> schedule = taskScheduler.schedule(notification, cronTrigger);
+            ScheduledFuture<?> schedule = taskScheduler.schedule(notification, cronTriggerToNotification);
             storageOfTask.put(Notification.class, schedule);
         }
     }

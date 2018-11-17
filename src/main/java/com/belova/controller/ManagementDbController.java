@@ -11,6 +11,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
@@ -45,7 +46,7 @@ public class ManagementDbController {
     @Autowired
     private ThreadPoolTaskScheduler taskScheduler;
     @Autowired
-    private CronTrigger cronTrigger;
+    private CronTrigger cronTriggerToBackupData;
     @Autowired
     private StorageOfTask storageOfTask;
 
@@ -73,7 +74,7 @@ public class ManagementDbController {
             e.printStackTrace();
         }
         ScheduledFuture<?> schedule = taskScheduler.schedule(new BackupData(pathDumpField.getText(), pathSaveField.getText() + "\\",
-                user, password, host, port, database), cronTrigger);
+                user, password, host, port, database), cronTriggerToBackupData);
         storageOfTask.put(BackupData.class, schedule);
         startItem.setDisable(true);
         stopItem.setDisable(false);
