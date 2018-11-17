@@ -8,8 +8,6 @@ import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -54,9 +52,6 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addUser(String fio, String login, String post, String department, UserRole role) {
         String password = generatedPassword();
-/*        String query = String.format("insert into User (department, fio, login, password, post, enabled, user_role_id) values('%s','%s','%s',md5('%s'),'%s',%s,%s)",
-                department, fio, login, password, post, 1, role.getId());
-        entityManager.createNativeQuery(query).executeUpdate();*/
         User newUser = new User();
         newUser.setFio(fio);
         newUser.setLogin(login);

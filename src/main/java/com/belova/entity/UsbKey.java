@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "usb_key")
 public class UsbKey extends com.belova.entity.Entity {
     @NotNull
-    @Column(name = "serialNumber", nullable = false)
-    private String serialNumber;
+    @Column(name = "sequence_key", nullable = false)
+    private String sequence_key;
 
     @Lob
     @Column(name="bytes")
@@ -22,12 +22,12 @@ public class UsbKey extends com.belova.entity.Entity {
     public UsbKey() {
     }
 
-    public String getSerialNumber() {
-        return serialNumber;
+    public String getKey() {
+        return sequence_key;
     }
 
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
+    public void setKey(String sequence_key) {
+        this.sequence_key = sequence_key;
     }
 
     public byte[] getBytes() {

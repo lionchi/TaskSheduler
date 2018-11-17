@@ -25,7 +25,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             return false;
         }
         //String targetType = targetDomainObject.getClass().getSimpleName().toUpperCase();
-        String targetLogin = ((User) targetDomainObject).getLogin();
+        String targetLogin = ((User) targetDomainObject).getLogin();//логин пользователя, который совершает действие
 
         return hasPrivilege(targetLogin, permission.toString());
     }
@@ -42,7 +42,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
 
     private boolean hasPrivilege(String targetLogin, String permission) {
-        UserDetails userDetails = myUserDetailsService.loadUserByUsername(targetLogin);
+        UserDetails userDetails = myUserDetailsService.loadUserByUsername(targetLogin);//возвращает список превилегий
         for (GrantedAuthority grantedAuth : userDetails.getAuthorities()) {
             if (grantedAuth.getAuthority().contains(permission)) {
                 return true;

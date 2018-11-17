@@ -3,9 +3,10 @@ package com.belova.service;
 import com.belova.entity.User;
 
 import java.io.File;
+import java.io.IOException;
 
 public interface UsbKeyService {
-    void addUsbKey(String serialNumber, String path, User user);
+    void addUsbKey(String path, User user) throws IOException;
 
     boolean checkKey(File file, String login);
 
