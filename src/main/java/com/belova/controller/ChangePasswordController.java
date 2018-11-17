@@ -1,7 +1,7 @@
 package com.belova.controller;
 
-import com.belova.common.MD5;
-import com.belova.service.UserServiceImpl;
+import com.belova.common.supporting.MD5;
+import com.belova.service.user.UserServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

@@ -2,7 +2,7 @@ package com.belova.controller;
 
 import com.belova.entity.Task;
 import com.belova.entity.enums.Status;
-import com.belova.service.TasksService;
+import com.belova.service.task.TasksService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

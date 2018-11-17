@@ -1,8 +1,7 @@
 package com.belova.controller;
 
-import com.belova.common.UserSession;
-import com.belova.entity.User;
-import com.belova.service.UserServiceImpl;
+import com.belova.common.supporting.UserSession;
+import com.belova.service.user.UserServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.springframework.beans.factory.annotation.Autowired;

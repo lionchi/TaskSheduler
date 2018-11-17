@@ -1,10 +1,10 @@
 package com.belova.controller;
 
-import com.belova.common.UserSession;
-import com.belova.controller.configuration.ConfigurationControllers;
+import com.belova.common.supporting.UserSession;
+import com.belova.common.ofSpring.ConfigurationControllers;
 import com.belova.entity.User;
-import com.belova.service.UsbKeyServiceImpl;
-import com.belova.service.UserServiceImpl;
+import com.belova.service.usb.UsbKeyServiceImpl;
+import com.belova.service.user.UserServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,6 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,16 +28,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
 import java.io.File;
 import java.net.URL;
 
 public class MainController {
 
-    @Autowired
-    private EntityManager entityManager;
     @Qualifier("adminView")
     @Autowired
     private ConfigurationControllers.View viewAdmin;
@@ -129,8 +131,10 @@ public class MainController {
             adminController.setStage(newStage);
             newStage.setTitle("Администрирование");
             newStage.setScene(window == null ? new Scene(view) : window.getScene());
-            newStage.setResizable(true);
+            newStage.setResizable(false);
             newStage.centerOnScreen();
+            newStage.getIcons().addAll(stage.getIcons());
+            newStage.setOnCloseRequest(event -> hideApplication(newStage, event));
             newStage.show();
             stage.hide();
         } else if (userSession.getRoles().contains("ROLE_LEAD")) {
@@ -146,8 +150,10 @@ public class MainController {
             leadController.initMainTable(true, true);
             newStage.setTitle("Руководитель");
             newStage.setScene(window == null ? new Scene(view) : window.getScene());
-            newStage.setResizable(true);
+            newStage.setResizable(false);
             newStage.centerOnScreen();
+            newStage.getIcons().addAll(stage.getIcons());
+            newStage.setOnCloseRequest(event -> hideApplication(newStage, event));
             newStage.show();
             stage.hide();
         } else if (userSession.getRoles().contains("ROLE_USER")) {
@@ -163,8 +169,10 @@ public class MainController {
             userController.initMainTable(true, true);
             newStage.setTitle("Руководитель");
             newStage.setScene(window == null ? new Scene(view) : window.getScene());
-            newStage.setResizable(true);
+            newStage.setResizable(false);
             newStage.centerOnScreen();
+            newStage.getIcons().addAll(stage.getIcons());
+            newStage.setOnCloseRequest(event -> hideApplication(newStage, event));
             newStage.show();
             stage.hide();
         }
@@ -186,5 +194,16 @@ public class MainController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    private void hideApplication(Stage newStage, WindowEvent event) {
+        TrayNotification trayNotification = new TrayNotification();
+        trayNotification.setTitle("Приложение свернуто");
+        trayNotification.setMessage("Все уведомления буду отображаться");
+        trayNotification.setNotificationType(NotificationType.INFORMATION);
+        trayNotification.setAnimationType(AnimationType.POPUP);
+        newStage.setIconified(true);
+        trayNotification.showAndDismiss(Duration.ONE);
+        event.consume();
     }
 }

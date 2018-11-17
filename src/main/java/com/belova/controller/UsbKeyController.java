@@ -1,7 +1,7 @@
 package com.belova.controller;
 
 import com.belova.entity.User;
-import com.belova.service.UsbKeyServiceImpl;
+import com.belova.service.usb.UsbKeyServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,11 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import javax.swing.*;
+
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.List;

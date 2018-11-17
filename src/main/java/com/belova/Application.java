@@ -1,10 +1,11 @@
 package com.belova;
 
-import com.belova.common.AbstractJavaFxApplicationSupport;
-import com.belova.common.ThreadPoolTaskSchedulerConfig;
-import com.belova.controller.configuration.ConfigurationControllers;
+import com.belova.common.ofSpring.AbstractJavaFxApplicationSupport;
+import com.belova.common.ofSpring.ThreadPoolTaskSchedulerConfig;
+import com.belova.common.ofSpring.ConfigurationControllers;
 import com.belova.controller.MainController;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
+
+import java.net.URL;
 
 @Lazy
 @SpringBootApplication(scanBasePackages = "")
@@ -31,9 +34,11 @@ public class Application extends AbstractJavaFxApplicationSupport {
         MainController mainController = (MainController) view.getController();
         AnchorPane view = (AnchorPane) this.view.getView();
         mainController.setStage(stage);
+        URL url = Application.class.getClassLoader().getResource("img/organize.png");
+        stage.getIcons().addAll(new Image(url.toString()));
         stage.setTitle(windowTitle);
         stage.setScene(new Scene(view));
-        stage.setResizable(true);
+        stage.setResizable(false);
         stage.centerOnScreen();
         stage.show();
     }

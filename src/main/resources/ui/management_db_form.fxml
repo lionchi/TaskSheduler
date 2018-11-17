@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane opacity="0.68" prefHeight="240.0" prefWidth="550.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.ManagementDbController">
+<AnchorPane opacity="0.68" prefHeight="240.0" prefWidth="550.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.management.ManagementDbController">
    <children>
       <Label layoutX="126.0" layoutY="37.0" text="ВЫБЕРИТЕ MYSQLDUMP" textFill="WHITE">
          <font>

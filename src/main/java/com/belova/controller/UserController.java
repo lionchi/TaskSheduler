@@ -1,12 +1,12 @@
 package com.belova.controller;
 
-import com.belova.common.Notification;
-import com.belova.common.StorageOfTask;
-import com.belova.common.UserSession;
-import com.belova.controller.configuration.ConfigurationControllers;
+import com.belova.common.implementationRunnable.Notification;
+import com.belova.common.supporting.StorageOfTask;
+import com.belova.common.supporting.UserSession;
+import com.belova.common.ofSpring.ConfigurationControllers;
 import com.belova.entity.Task;
 import com.belova.entity.enums.Status;
-import com.belova.service.TasksServiceImpl;
+import com.belova.service.task.TasksServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

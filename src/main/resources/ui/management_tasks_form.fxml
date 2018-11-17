@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane opacity="0.68" prefHeight="600.0" prefWidth="593.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.ManagementTasksController">
+<AnchorPane opacity="0.68" prefHeight="600.0" prefWidth="593.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.management.ManagementTasksController">
    <children>
       <Label layoutX="111.0" layoutY="47.0" text="НАИМЕНОВАНИЕ" textFill="WHITE">
          <font>
