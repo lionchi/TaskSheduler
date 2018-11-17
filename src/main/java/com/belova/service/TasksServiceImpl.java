@@ -52,7 +52,7 @@ public class TasksServiceImpl implements TasksService {
     public void addTask(String name, String description, Status status, Complexity complexity, Type type,
                         User user, LocalDate date, boolean isQuickly, User createdUser) {
         Task newTask = new Task();
-        newTask.setUser(user);
+        newTask.setUser(entityManager.find(User.class, user.getId()));
         newTask.setType(type);
         newTask.setComplexity(complexity);
         newTask.setStatus(status);

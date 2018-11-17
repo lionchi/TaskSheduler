@@ -29,10 +29,12 @@ public class Notification implements Runnable {
                                 "Статус: %s. ",
                         newTask.getName(), newTask.getStatus().getValue()));
                 trayNotification.setNotificationType(NotificationType.INFORMATION);
-                Media hit = new Media(Application.class.getResource("/sounds/notification_sound.mp3").toString());
-                MediaPlayer mediaPlayer = new MediaPlayer(hit);
+                trayNotification.setOnShown(event -> {
+                    Media hit = new Media(Application.class.getResource("/sounds/notification_sound.mp3").toString());
+                    MediaPlayer mediaPlayer = new MediaPlayer(hit);
+                    mediaPlayer.play();
+                });
                 trayNotification.showAndWait();
-                mediaPlayer.play();
             });
         }
     }
