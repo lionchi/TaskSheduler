@@ -129,6 +129,9 @@ public class TasksServiceImpl implements TasksService {
             if (hourOfTheCreateDate.equals(hourOfTheCurrentDate)) {
                 int difference = minuteOfTheCurrentDate - minuteOfTheCreateDate;
                 return difference < 45;
+            } else if ((hourOfTheCreateDate - hourOfTheCurrentDate) == -1) {
+                int difference = (60 - minuteOfTheCreateDate) + minuteOfTheCurrentDate;
+                return difference < 45;
             } else {
                 return false;
             }
