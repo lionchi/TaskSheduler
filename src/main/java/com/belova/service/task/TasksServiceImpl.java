@@ -28,7 +28,7 @@ public class TasksServiceImpl implements TasksService {
     @PreAuthorize("hasRole('ROLE_LEAD')")
     public List<Task> getAllDepartmentTasks(Long id) {
         User user = entityManager.find(User.class, id);
-        List<Task> tasksDepartments = entityManager.createQuery("select t from Task as t where t.user.department = :department", Task.class)
+        List<Task> tasksDepartments = entityManager.createQuery("select t from Task as t where t.user.department = :department order by t.createDate desc", Task.class)
                 .setParameter("department", user.getDepartment())
                 .getResultList();
         tasksDepartments.forEach(Task::initProperty);
@@ -38,7 +38,7 @@ public class TasksServiceImpl implements TasksService {
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     public List<Task> getAllUserTasks(Long id) {
-        List<Task> tasksDepartments = entityManager.createQuery("select t from Task as t where t.user.id = :id", Task.class)
+        List<Task> tasksDepartments = entityManager.createQuery("select t from Task as t where t.user.id = :id order by t.createDate desc", Task.class)
                 .setParameter("id", id)
                 .getResultList();
         tasksDepartments.forEach(Task::initProperty);

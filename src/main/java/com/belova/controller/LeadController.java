@@ -1,5 +1,6 @@
 package com.belova.controller;
 
+import com.belova.common.statistics.GanttChart;
 import com.belova.common.implementationRunnable.Notification;
 import com.belova.common.statistics.StatisticsHelper;
 import com.belova.common.supporting.StorageOfTask;
@@ -14,17 +15,20 @@ import com.belova.entity.enums.Status;
 import com.belova.service.role.RoleServiceImpl;
 import com.belova.service.task.TasksServiceImpl;
 import com.belova.service.user.UserServiceImpl;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import org.jfree.ui.RefineryUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +38,8 @@ import org.springframework.scheduling.support.CronTrigger;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +58,7 @@ public class LeadController {
     public Label addUserInDepartmentLabel;
     public Label changeUserLabel;
     public Label deleteUserInDepartmentLabel;
+    public Label gantLabel;
 
     public TableView<Task> mainTable;
     public TableColumn<Task, String> fioColumn;
@@ -123,6 +130,7 @@ public class LeadController {
         addUserInDepartmentLabel.setOnMouseClicked(event -> addUserInDepartment());
         changeUserLabel.setOnMouseClicked(event -> changeUser());
         deleteUserInDepartmentLabel.setOnMouseClicked(event -> deleteUserInDepartment());
+        gantLabel.setOnMouseClicked(event -> showDiagramGanta());
     }
 
     private void add() {
@@ -301,6 +309,11 @@ public class LeadController {
             taskFilteredList.setPredicate(task -> task.getStatus().toString().equals(statusBox.getValue()));
             mainTable.setItems(taskFilteredList);
         }
+    }
+
+    private void showDiagramGanta() {
+        List<Task> allDepartmentTasks = tasksService.getAllDepartmentTasks(userSession.getId());
+        GanttChart ganttChart = new GanttChart("Диаграмма Ганта", allDepartmentTasks);
     }
 
     private void generateStatistics() {

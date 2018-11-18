@@ -44,6 +44,10 @@ public class Application extends AbstractJavaFxApplicationSupport {
     }
 
     public static void main(String[] args) {
+        // Для работы Javafx с awt
+        System.setProperty("javafx.macosx.embedded", "true");
+        java.awt.Toolkit.getDefaultToolkit();
+
         launchApp(Application.class, args);
     }
 
