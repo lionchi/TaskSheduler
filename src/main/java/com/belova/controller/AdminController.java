@@ -223,6 +223,7 @@ public class AdminController {
         Tray.deleteTrayIcon();
         stage.close();
         primaryStage.show();
+        primaryStage.toFront();
     }
 
     private void add() {

@@ -132,6 +132,7 @@ public class UserController {
         Tray.deleteTrayIcon();
         stage.close();
         primaryStage.show();
+        primaryStage.toFront();
     }
 
     public void initMainTable(boolean isInitComboBox, boolean startThreadToNotification) {

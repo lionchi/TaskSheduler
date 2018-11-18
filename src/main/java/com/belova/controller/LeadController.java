@@ -350,6 +350,7 @@ public class LeadController {
         Tray.deleteTrayIcon();
         stage.close();
         primaryStage.show();
+        primaryStage.toFront();
     }
 
     public void setPrimaryStage(Stage stage) {
