@@ -1,5 +1,6 @@
 package com.belova.controller;
 
+import com.belova.common.Tray;
 import com.belova.common.statistics.StatisticsHelper;
 import com.belova.common.supporting.UserSession;
 import com.belova.common.ofSpring.ConfigurationControllers;
@@ -219,6 +220,7 @@ public class AdminController {
 
     private void logout() {
         userSession.closeSession();
+        Tray.deleteTrayIcon();
         stage.close();
         primaryStage.show();
     }

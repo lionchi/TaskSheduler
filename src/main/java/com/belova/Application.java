@@ -4,6 +4,7 @@ import com.belova.common.ofSpring.AbstractJavaFxApplicationSupport;
 import com.belova.common.ofSpring.ThreadPoolTaskSchedulerConfig;
 import com.belova.common.ofSpring.ConfigurationControllers;
 import com.belova.controller.MainController;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -31,6 +32,7 @@ public class Application extends AbstractJavaFxApplicationSupport {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Platform.setImplicitExit(false); // Отключает функцию последнего скрытого окна, чтобы не закрывалось приложение
         MainController mainController = (MainController) view.getController();
         AnchorPane view = (AnchorPane) this.view.getView();
         mainController.setStage(stage);

@@ -1,5 +1,6 @@
 package com.belova.controller;
 
+import com.belova.common.Tray;
 import com.belova.common.supporting.UserSession;
 import com.belova.common.ofSpring.ConfigurationControllers;
 import com.belova.entity.User;
@@ -198,12 +199,13 @@ public class MainController {
 
     private void hideApplication(Stage newStage, WindowEvent event) {
         TrayNotification trayNotification = new TrayNotification();
-        trayNotification.setTitle("Приложение свернуто");
+        trayNotification.setTitle("Приложение свернуто в трей");
         trayNotification.setMessage("Все уведомления буду отображаться");
         trayNotification.setNotificationType(NotificationType.INFORMATION);
         trayNotification.setAnimationType(AnimationType.POPUP);
-        newStage.setIconified(true);
+        newStage.hide();
         trayNotification.showAndDismiss(Duration.ONE);
+        Tray.addAppToTray(newStage);
         event.consume();
     }
 }

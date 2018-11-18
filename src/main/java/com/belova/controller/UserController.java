@@ -1,5 +1,6 @@
 package com.belova.controller;
 
+import com.belova.common.Tray;
 import com.belova.common.implementationRunnable.Notification;
 import com.belova.common.supporting.StorageOfTask;
 import com.belova.common.supporting.UserSession;
@@ -128,6 +129,7 @@ public class UserController {
     private void logout() {
         storageOfTask.clearAllOfClass(Notification.class);
         userSession.closeSession();
+        Tray.deleteTrayIcon();
         stage.close();
         primaryStage.show();
     }

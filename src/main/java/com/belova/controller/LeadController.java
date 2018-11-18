@@ -1,5 +1,6 @@
 package com.belova.controller;
 
+import com.belova.common.Tray;
 import com.belova.common.statistics.GanttChart;
 import com.belova.common.implementationRunnable.Notification;
 import com.belova.common.statistics.StatisticsHelper;
@@ -346,6 +347,7 @@ public class LeadController {
     private void logout() {
         storageOfTask.clearAllOfClass(Notification.class);
         userSession.closeSession();
+        Tray.deleteTrayIcon();
         stage.close();
         primaryStage.show();
     }
