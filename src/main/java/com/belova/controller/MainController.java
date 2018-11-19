@@ -117,10 +117,10 @@ public class MainController {
 
     private void showWindowsOfUserOrAdmin() {
         if (userSession.getRoles().contains("ROLE_ADMIN")) {
-           /* if (!checkUsbKey()) {
+            if (!checkUsbKey()) {
                 new Alert(Alert.AlertType.ERROR, "Вы указали неверный usb ключ").showAndWait();
                 return;
-            }*/
+            }
             Window window = null;
             if (viewAdmin.getView().getScene() != null) {
                 window = viewAdmin.getView().getScene().getWindow();
