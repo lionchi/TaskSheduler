@@ -314,6 +314,9 @@ public class LeadController {
 
     private void showDiagramGanta() {
         List<Task> allDepartmentTasks = tasksService.getAllDepartmentTasks(userSession.getId());
+        allDepartmentTasks = allDepartmentTasks.stream()
+                .filter(task -> !task.getStatus().equals(Status.FIHISH))
+                .collect(Collectors.toList());
         GanttChart ganttChart = new GanttChart("Диаграмма Ганта", allDepartmentTasks);
     }
 

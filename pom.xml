@@ -109,10 +109,19 @@
             <version>2.2.4</version>
         </dependency>
 
+        <!-- Для диаграммы ганта -->
         <dependency>
             <groupId>jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.0.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.belova</groupId>
+            <artifactId>trayNotification</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/TrayNotification.jar</systemPath>
         </dependency>
 
         <!-- Для тестов <dependency>
