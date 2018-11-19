@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,6 +26,8 @@ public class ManagementRoleController {
 
     public ComboBox<UserRole> roles;
     public ComboBox<UserRole> roleDelete;
+
+    public AnchorPane anchorPane;
 
     @Autowired
     private RoleServiceImpl roleService;
@@ -102,5 +105,10 @@ public class ManagementRoleController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setStylesheet() {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
     }
 }

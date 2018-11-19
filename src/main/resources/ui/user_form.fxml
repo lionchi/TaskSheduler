@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="700.0" prefWidth="950.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.UserController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="700.0" prefWidth="950.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.UserController">
     <children>
-        <Pane fx:id="extraPane" layoutX="668.0" prefHeight="700.0" prefWidth="280.0" styleClass="pane">
+        <Pane fx:id="extraPane" layoutX="668.0" prefHeight="714.0" prefWidth="292.0" styleClass="pane">
             <children>
                 <Label fx:id="changePass" layoutX="16.0" layoutY="614.0" styleClass="button1" text="ИЗМЕНИТЬ ПАРОЛЬ" textFill="WHITE">
                     <font>
@@ -68,7 +68,7 @@
                 <DropShadow height="63.37" radius="27.005" width="46.65" />
             </effect>
         </Label>
-      <ComboBox fx:id="statusBox" layoutX="24.0" layoutY="45.0" prefHeight="31.0" prefWidth="266.0" styleClass="combo-box" stylesheets="@../css/MyStyle.css" />
+      <ComboBox fx:id="statusBox" layoutX="24.0" layoutY="45.0" prefHeight="31.0" prefWidth="266.0" />
       <Label layoutX="24.0" layoutY="13.0" text="СТАТУС" textFill="WHITE">
          <font>
             <Font name="Impact" size="20.0" />
@@ -77,7 +77,7 @@
             <DropShadow height="63.37" radius="27.005" width="46.65" />
          </effect>
       </Label>
-      <CheckBox fx:id="readCheckBox" layoutX="23.0" layoutY="105.0" mnemonicParsing="false" style="-fx-text-fill: white;" styleClass="label" stylesheets="@../css/MyStyle.css" text="Показывать только непрочитанные задачи">
+      <CheckBox fx:id="readCheckBox" layoutX="23.0" layoutY="105.0" mnemonicParsing="false" style="-fx-text-fill: white;" text="Показывать только непрочитанные задачи">
          <font>
             <Font name="Impact" size="20.0" />
          </font>

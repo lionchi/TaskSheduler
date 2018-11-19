@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.ObjectUtils;
@@ -27,6 +28,8 @@ public class UsbKeyController {
     public Button okButton;
     public Button chooseButton;
     public Button deleteButton;
+
+    public AnchorPane anchorPane;
 
     @Autowired
     private UsbKeyServiceImpl usbKeyService;
@@ -96,5 +99,10 @@ public class UsbKeyController {
         userObservableList.clear();
         userObservableList.addAll(userList);
         checkUser.setItems(userObservableList);
+    }
+
+    public void setStylesheet() {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
     }
 }

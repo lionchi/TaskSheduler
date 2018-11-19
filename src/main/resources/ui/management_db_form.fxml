@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane opacity="0.68" prefHeight="240.0" prefWidth="550.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.management.ManagementDbController">
+<AnchorPane fx:id="anchorPane" opacity="0.68" prefHeight="240.0" prefWidth="550.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.management.ManagementDbController">
    <children>
       <Label layoutX="126.0" layoutY="37.0" text="ВЫБЕРИТЕ MYSQLDUMP" textFill="WHITE">
          <font>
@@ -16,7 +16,7 @@
          </font>
       </Label>
       <TextField fx:id="pathDumpField" editable="false" layoutX="22.0" layoutY="69.0" prefHeight="25.0" prefWidth="389.0" />
-      <Button fx:id="explorerFile" layoutX="438.0" layoutY="69.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Обзор" />
+      <Button fx:id="explorerFile" styleClass="button_obzor" layoutX="438.0" layoutY="69.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Обзор" />
       <MenuButton layoutX="182.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="186.0" text="Выберите действие">
         <items>
           <MenuItem fx:id="startItem" mnemonicParsing="false" text="Старт" />
@@ -29,6 +29,6 @@
          </font>
       </Label>
       <TextField fx:id="pathSaveField" editable="false" layoutX="22.0" layoutY="145.0" prefHeight="25.0" prefWidth="389.0" />
-      <Button fx:id="explorerDir" layoutX="438.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Обзор" />
+      <Button fx:id="explorerDir" styleClass="button_obzor" layoutX="438.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Обзор" />
    </children>
 </AnchorPane>

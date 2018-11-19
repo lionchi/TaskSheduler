@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -30,6 +31,8 @@ public class ManagementDbController {
 
     public MenuItem startItem;
     public MenuItem stopItem;
+
+    public AnchorPane anchorPane;
 
     @Value("${spring.datasource.username}")
     private String user;
@@ -131,5 +134,10 @@ public class ManagementDbController {
 
     public void setPathSaveField(String pathSave) {
         this.pathSaveField.setText(pathSave);
+    }
+
+    public void setStylesheet() {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
     }
 }

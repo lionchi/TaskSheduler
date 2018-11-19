@@ -126,11 +126,13 @@ public class AdminController {
         managementUsbKeys.setOnMouseClicked(event -> showManagementOfUsbView());
         managementDumpBD.setOnMouseClicked(event -> showManagementDumpDbView());
         statistics.setOnMouseClicked(event -> generateStatistics());
-        initMainTableAndPostBox();
+        //initMainTableAndPostBox();
     }
 
 
     public void initMainTableAndPostBox() {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
         userObservableList.clear();
         observableListForRoleBox.clear();
         observableListForDepartmentBox.clear();
@@ -168,6 +170,7 @@ public class AdminController {
         AnchorPane view = (AnchorPane) this.viewRole.getView();
         managementRoleController.setStage(newStage);
         managementRoleController.setUserRoles(allRoles);
+        managementRoleController.setStylesheet();
         newStage.setScene(window == null ? new Scene(view) : window.getScene());
         newStage.initModality(Modality.WINDOW_MODAL);
         newStage.initOwner(mainTable.getScene().getWindow());
@@ -191,6 +194,7 @@ public class AdminController {
         }
         Stage newStage = new Stage(StageStyle.UTILITY);
         ManagementDbController managementDbController = (ManagementDbController) viewDb.getController();
+        managementDbController.setStylesheet();
         AnchorPane view = (AnchorPane) this.viewDb.getView();
         managementDbController.setStage(newStage);
         managementDbController.setPathDumpField(pathFile);
@@ -209,6 +213,7 @@ public class AdminController {
         }
         Stage newStage = new Stage(StageStyle.UTILITY);
         ChangePasswordController changePasswordController = (ChangePasswordController) viewChangePassword.getController();
+        changePasswordController.setStylesheet();
         AnchorPane view = (AnchorPane) this.viewChangePassword.getView();
         changePasswordController.setStage(newStage);
         newStage.setScene(window == null ? new Scene(view) : window.getScene());
@@ -250,7 +255,9 @@ public class AdminController {
         managementUserController.setStage(newStage);
         managementUserController.setUserRoleList(allRoles);
         managementUserController.setAdd(isAdd);
+        managementUserController.setStylesheet();
         if (!isAdd) managementUserController.setEditUser(mainTable.getSelectionModel().getSelectedItem());
+        else managementUserController.clearField();
         newStage.setScene(window == null ? new Scene(view) : window.getScene());
         newStage.initModality(Modality.WINDOW_MODAL);
         newStage.initOwner(mainTable.getScene().getWindow());
@@ -291,6 +298,7 @@ public class AdminController {
         managementPrivilegeController.setStage(newStage);
         managementPrivilegeController.setUserRoleList(allRoles);
         managementPrivilegeController.setPrivilegeSet(allPrivileges);
+        managementPrivilegeController.setStylesheet();
         newStage.setScene(window == null ? new Scene(view) : window.getScene());
         newStage.initModality(Modality.WINDOW_MODAL);
         newStage.initOwner(mainTable.getScene().getWindow());
@@ -338,6 +346,7 @@ public class AdminController {
         }
         Stage newStage = new Stage(StageStyle.UTILITY);
         UsbKeyController usbKeyController = (UsbKeyController) viewUsbKey.getController();
+        usbKeyController.setStylesheet();
         AnchorPane view = (AnchorPane) this.viewUsbKey.getView();
         usbKeyController.setStage(newStage);
         usbKeyController.setUserObservableList(userAdminList);

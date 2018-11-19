@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class ManagementTasksController {
     public DatePicker deadline;
     public CheckBox isQuickly;
     public Button add;
+
+    public AnchorPane anchorPane;
 
     private ObservableList<Status> observableListFoStatus = FXCollections.observableArrayList();
     private ObservableList<Complexity> observableListForComplexity = FXCollections.observableArrayList();
@@ -159,5 +162,10 @@ public class ManagementTasksController {
             comboBox.getSelectionModel().clearSelection();
             comboBox.setValue(null);
         }
+    }
+
+    public void setStylesheet() {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
     }
 }

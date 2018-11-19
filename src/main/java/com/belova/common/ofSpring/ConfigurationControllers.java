@@ -18,11 +18,6 @@ public class ConfigurationControllers {
         return loadView("ui/main.fxml");
     }
 
-    @Bean(name = "taskView")
-    public View getTaskView() throws IOException {
-        return loadView("ui/task_form.fxml");
-    }
-
     @Bean(name = "adminView")
     public View getAdminView() throws IOException {
         return loadView("ui/admin.fxml");
@@ -81,11 +76,6 @@ public class ConfigurationControllers {
     @Bean
     public MainController getMainController() throws IOException {
         return (MainController) getMainView().getController();
-    }
-
-    @Bean
-    public TaskController getTaskController() throws IOException {
-        return (TaskController) getTaskView().getController();
     }
 
     @Bean

@@ -49,6 +49,8 @@ public class UserController {
     public ComboBox<String> statusBox;
     public CheckBox readCheckBox;
 
+    public AnchorPane anchorPane;
+
     @Autowired
     private TasksServiceImpl tasksService;
     @Autowired
@@ -97,6 +99,7 @@ public class UserController {
             }
             Stage newStage = new Stage(StageStyle.UTILITY);
             ChangeStatusController changeStatusController = (ChangeStatusController) viewChangeStatus.getController();
+            changeStatusController.setStylesheet();
             AnchorPane view = (AnchorPane) this.viewChangeStatus.getView();
             changeStatusController.setStage(newStage);
             changeStatusController.setCurrentTask(mainTable.getSelectionModel().getSelectedItem());
@@ -117,6 +120,7 @@ public class UserController {
         }
         Stage newStage = new Stage(StageStyle.UTILITY);
         ChangePasswordController changePasswordController = (ChangePasswordController) viewChangePassword.getController();
+        changePasswordController.setStylesheet();
         AnchorPane view = (AnchorPane) this.viewChangePassword.getView();
         changePasswordController.setStage(newStage);
         newStage.setScene(window == null ? new Scene(view) : window.getScene());
@@ -136,6 +140,8 @@ public class UserController {
     }
 
     public void initMainTable(boolean isInitComboBox, boolean startThreadToNotification) {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
         List<Task> allDepartmentTasks = tasksService.getAllUserTasks(userSession.getId());
         observableListForTable.clear();
         observableListForTable.addAll(allDepartmentTasks);

@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,6 +32,8 @@ public class ManagementPrivilegeController {
     public ComboBox<Privilege> checkPrivilege;
     public ComboBox<UserRole> checkRole2;
     public ComboBox<Privilege> fastenPrivileges;
+
+    public AnchorPane anchorPane;
 
     @Autowired
     private PrivilegeServiceImpl privilegeService;
@@ -191,5 +194,10 @@ public class ManagementPrivilegeController {
     public void setStage(Stage stage) {
         this.stage = stage;
         this.stage.setOnCloseRequest(event -> adminController.initMainTableAndPostBox());
+    }
+
+    public void setStylesheet() {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
     }
 }

@@ -73,6 +73,8 @@ public class LeadController {
     public ComboBox<String> fioBox;
     public ComboBox<String> statusBox;
 
+    public AnchorPane anchorPane;
+
     @Autowired
     private TasksServiceImpl tasksService;
     @Autowired
@@ -157,6 +159,7 @@ public class LeadController {
         AnchorPane view = (AnchorPane) this.viewTasks.getView();
         managementTasksController.setStage(newStage);
         managementTasksController.setAdd(isAdd);
+        managementTasksController.setStylesheet();
         if (!isAdd) managementTasksController.setEditTask(mainTable.getSelectionModel().getSelectedItem());
         newStage.setScene(window == null ? new Scene(view) : window.getScene());
         newStage.initModality(Modality.WINDOW_MODAL);
@@ -199,7 +202,9 @@ public class LeadController {
         managementUserController.setStage(newStage);
         managementUserController.setUserRoleList(rolesWithoutRoleAdmin);
         managementUserController.setAdd(isAdd);
+        managementUserController.setStylesheet();
         if (isAdd) {
+            managementUserController.clearField();
             managementUserController.setLead(true, userService.getDepartmentCurrentUser(userSession.getId()));
         } else {
             User selectUser = userService.findUserByFio(fioBox.getSelectionModel().getSelectedItem());
@@ -233,6 +238,8 @@ public class LeadController {
     }
 
     public void initMainTable(boolean isInitComboBox, boolean startThreadToNotification) {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
         List<Task> allDepartmentTasks = tasksService.getAllDepartmentTasks(userSession.getId());
         observableListForTable.clear();
         observableListForTable.addAll(allDepartmentTasks);
@@ -338,6 +345,7 @@ public class LeadController {
         }
         Stage newStage = new Stage(StageStyle.UTILITY);
         ChangePasswordController changePasswordController = (ChangePasswordController) viewChangePassword.getController();
+        changePasswordController.setStylesheet();
         AnchorPane view = (AnchorPane) this.viewChangePassword.getView();
         changePasswordController.setStage(newStage);
         newStage.setScene(window == null ? new Scene(view) : window.getScene());

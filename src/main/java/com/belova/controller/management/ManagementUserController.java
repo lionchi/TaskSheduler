@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,14 @@ public class ManagementUserController {
 
     public Button add;
 
+    public AnchorPane anchorPane;
+
     @Autowired
     private UserServiceImpl userService;
     @Autowired
     private AdminController adminController;
     @Autowired
     private LeadController leadController;
-    @Autowired
-    private UserSession userSession;
 
     private Stage stage;
     private boolean isLead;
@@ -66,6 +67,16 @@ public class ManagementUserController {
         loginField.setText(editUser.getLogin());
         isActive.setSelected(editUser.getEnabled() == 1);
         chooseRole.setValue(editUser.getUserRole());
+    }
+
+    public void clearField() {
+        fioField.clear();
+        postField.clear();
+        departmentField.clear();
+        loginField.clear();
+        isActive.setSelected(false);
+        chooseRole.getSelectionModel().clearSelection();
+        chooseRole.setValue(null);
     }
 
     public void setAdd(boolean add) {
@@ -136,5 +147,10 @@ public class ManagementUserController {
     public void setEditUser(User editUser) {
         this.editUser = editUser;
         initField();
+    }
+
+    public void setStylesheet() {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
     }
 }

@@ -117,10 +117,10 @@ public class MainController {
 
     private void showWindowsOfUserOrAdmin() {
         if (userSession.getRoles().contains("ROLE_ADMIN")) {
-            if (!checkUsbKey()) {
+           /* if (!checkUsbKey()) {
                 new Alert(Alert.AlertType.ERROR, "Вы указали неверный usb ключ").showAndWait();
                 return;
-            }
+            }*/
             Window window = null;
             if (viewAdmin.getView().getScene() != null) {
                 window = viewAdmin.getView().getScene().getWindow();
@@ -130,6 +130,7 @@ public class MainController {
             AnchorPane view = (AnchorPane) this.viewAdmin.getView();
             adminController.setPrimaryStage(stage);
             adminController.setStage(newStage);
+            adminController.initMainTableAndPostBox();
             newStage.setTitle("Администрирование");
             newStage.setScene(window == null ? new Scene(view) : window.getScene());
             newStage.setResizable(false);

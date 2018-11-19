@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane opacity="0.68" prefHeight="463.0" prefWidth="550.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.UsbKeyController">
+<AnchorPane fx:id="anchorPane" opacity="0.68" prefHeight="463.0" prefWidth="550.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.UsbKeyController">
    <children>
       <Label layoutX="208.0" layoutY="208.0" text="ВЫБЕРИТЕ USB" textFill="WHITE">
          <font>
@@ -22,7 +22,7 @@
       <ComboBox fx:id="checkUser" layoutX="116.0" layoutY="113.0" prefHeight="25.0" prefWidth="217.0" />
       <TextField fx:id="filePath" layoutX="116.0" layoutY="245.0" prefHeight="25.0" prefWidth="217.0" />
       <Button fx:id="okButton" layoutX="235.0" layoutY="358.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="button_search" text="ОК" />
-      <Button fx:id="deleteButton" layoutX="339.0" layoutY="113.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="button_search" text="УДАЛИТЬ" />
-      <Button fx:id="chooseButton" layoutX="339.0" layoutY="245.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="ВЫБРАТЬ" />
+      <Button fx:id="deleteButton" layoutX="339.0" layoutY="113.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="button_obzor" text="УДАЛИТЬ" />
+      <Button fx:id="chooseButton" layoutX="339.0" layoutY="245.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="ВЫБРАТЬ" styleClass="button_obzor"/>
    </children>
 </AnchorPane>

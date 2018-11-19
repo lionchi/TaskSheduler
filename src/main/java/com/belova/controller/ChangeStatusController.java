@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +19,8 @@ import java.util.Arrays;
 public class ChangeStatusController {
     public Button changeButton;
     public ComboBox<Status> statusBox;
+
+    public AnchorPane anchorPane;
 
     @Autowired
     private TasksService tasksService;
@@ -61,5 +64,10 @@ public class ChangeStatusController {
     public void setCurrentTask(Task currentTask) {
         this.currentTask = currentTask;
         initComboBox();
+    }
+
+    public void setStylesheet() {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
     }
 }

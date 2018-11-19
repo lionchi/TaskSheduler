@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -18,6 +19,8 @@ public class ChangePasswordController {
     public PasswordField checkNewPass;
 
     public Button edit;
+
+    public AnchorPane anchorPane;
 
     @Autowired
     private UserServiceImpl userService;
@@ -47,6 +50,11 @@ public class ChangePasswordController {
         } else {
             new Alert(Alert.AlertType.ERROR, "Заполните корректно все поля").showAndWait();
         }
+    }
+
+    public void setStylesheet() {
+        if (!anchorPane.getStylesheets().contains("css/MyStyle.css"))
+            anchorPane.getStylesheets().add("css/MyStyle.css");
     }
 
     public void setStage(Stage newStage) {
