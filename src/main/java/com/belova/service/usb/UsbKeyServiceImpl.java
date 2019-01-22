@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.io.*;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -27,9 +28,9 @@ public class UsbKeyServiceImpl implements UsbKeyService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void addUsbKey(String path, User user){
+    public void addUsbKey(String serialNumber, String path, User user){
         UsbKey usbKey = new UsbKey();
-        String sequence_key = MD5.crypt(generatedKey());
+        String sequence_key = MD5.crypt(generatedKey(serialNumber));
         usbKey.setKey(sequence_key);
         String fileData = sequence_key;
         FileOutputStream fos = null;
@@ -93,12 +94,19 @@ public class UsbKeyServiceImpl implements UsbKeyService {
             return true;
         } else return false;
     }
-    private String generatedKey() {
-        RandomStringGenerator randomStringGenerator = new RandomStringGenerator.Builder()
-                .withinRange('0', 'z')
-                .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
-                .build();
-        return randomStringGenerator.generate(15);
+
+    private String generatedKey(String SN) {
+       String[] letter = SN.split("");
+       SN = "";
+       for(int i=0; i<letter.length; i++) {
+           RandomStringGenerator randomStringGenerator = new RandomStringGenerator.Builder()
+                   .withinRange('0', 'z')
+                   .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
+                   .build();
+           String rand = randomStringGenerator.generate(2);
+           SN+=letter[i]+rand;
+       }
+       return SN;
     }
 }
 

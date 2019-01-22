@@ -21,7 +21,7 @@ import java.util.List;
 
 public class UsbKeyController {
     public TextField serialNumber;
-    public TextField filePath;
+    public TextField usbPath;
 
     public ComboBox<User> checkUser;
 
@@ -51,9 +51,9 @@ public class UsbKeyController {
 
     private void ok() {
         if (ObjectUtils.allNotNull(checkUser.getValue())) {
-            usbKeyService.addUsbKey(filePath.getText(), checkUser.getValue());
+            usbKeyService.addUsbKey(serialNumber.getText(), usbPath.getText(), checkUser.getValue());
             serialNumber.clear();
-            filePath.clear();
+            usbPath.clear();
             checkUser.getSelectionModel().clearSelection();
             checkUser.setValue(null);
         } else {
@@ -85,7 +85,7 @@ public class UsbKeyController {
         try {
             //File file = fileChooser.showOpenDialog(stage);
             File result = dirChooser.showDialog(stage);
-            filePath.setText(result.getAbsolutePath());
+            usbPath.setText(result.getAbsolutePath());
         } catch (NullPointerException e) {
         }
 

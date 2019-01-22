@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="anchorPane" opacity="0.68" prefHeight="463.0" prefWidth="550.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.belova.controller.UsbKeyController">
    <children>
-      <Label layoutX="208.0" layoutY="208.0" text="ВЫБЕРИТЕ USB" textFill="WHITE">
+      <Label layoutX="209.0" layoutY="165.0" text="ВЫБЕРИТЕ USB" textFill="WHITE">
          <font>
             <Font name="Impact" size="20.0" />
          </font>
@@ -20,9 +20,15 @@
          </font>
       </Label>
       <ComboBox fx:id="checkUser" layoutX="116.0" layoutY="113.0" prefHeight="25.0" prefWidth="217.0" />
-      <TextField fx:id="filePath" layoutX="116.0" layoutY="245.0" prefHeight="25.0" prefWidth="217.0" />
+      <TextField fx:id="usbPath" layoutX="116.0" layoutY="201.0" prefHeight="25.0" prefWidth="217.0" />
       <Button fx:id="okButton" layoutX="235.0" layoutY="358.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="button_search" text="ОК" />
-      <Button fx:id="deleteButton" layoutX="339.0" layoutY="113.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="button_obzor" text="УДАЛИТЬ" />
-      <Button fx:id="chooseButton" layoutX="339.0" layoutY="245.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="ВЫБРАТЬ" styleClass="button_obzor"/>
+      <Button fx:id="deleteButton" layoutX="339.0" layoutY="113.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="93.0" styleClass="button_obzor" text="УДАЛИТЬ" />
+      <Button fx:id="chooseButton" layoutX="338.0" layoutY="201.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="93.0" styleClass="button_obzor" text="ВЫБРАТЬ" />
+      <Label layoutX="163.0" layoutY="252.0" text="ВВЕДИТЕ СЕРИЙНЫЙ НОМЕР" textFill="WHITE">
+         <font>
+            <Font name="Impact" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="serialNumber" layoutX="118.0" layoutY="288.0" prefHeight="31.0" prefWidth="314.0" />
    </children>
 </AnchorPane>

@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 public interface UsbKeyService {
-    void addUsbKey(String path, User user) throws IOException;
+    void addUsbKey(String serialNumber, String path, User user);
 
     boolean checkKey(File file, String login);
 
