@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Tray {
-    public static boolean flag = false;
-    public static TrayIcon trayIcon;
+    private static boolean flag = false;
+    private static TrayIcon trayIcon;
 
     public static void addAppToTray(Stage stage) {
         try {
             if (!SystemTray.isSupported()) {
-                System.out.println("Система не поддерживает ");
+                System.out.println("Система не поддерживает системный tray");
                 return;
             }
             if (!flag) {
@@ -54,14 +54,14 @@ public class Tray {
                 flag = true;
             }
         } catch (java.awt.AWTException | IOException e) {
-            System.out.println("Unable to init system tray");
+            System.out.println("Невозможно запустить системный  tray");
             e.printStackTrace();
         }
     }
 
     public static void deleteTrayIcon() {
         if (!SystemTray.isSupported()) {
-            System.out.println("No system tray support, application exiting.");
+            System.out.println("Система не поддерживает системный tray");
             return;
         }
         SystemTray tray = SystemTray.getSystemTray();

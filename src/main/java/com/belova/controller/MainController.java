@@ -1,8 +1,8 @@
 package com.belova.controller;
 
 import com.belova.common.Tray;
-import com.belova.common.supporting.UserSession;
 import com.belova.common.ofSpring.ConfigurationControllers;
+import com.belova.common.supporting.UserSession;
 import com.belova.entity.User;
 import com.belova.service.usb.UsbKeyServiceImpl;
 import com.belova.service.user.UserServiceImpl;
@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,6 +40,8 @@ import java.io.File;
 import java.net.URL;
 
 public class MainController {
+
+    private final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Qualifier("adminView")
     @Autowired
@@ -86,6 +90,12 @@ public class MainController {
             final String username = loginField.getText().trim();
             final String password = passwordField.getText().trim();
 
+            if (username.isEmpty() && password.isEmpty()) {
+                logger.warn("Заполните логи и пароль");
+            } else {
+                logger.info(String.format("Входные данные: login=%s и password=%s", username, password));
+            }
+
             Authentication request = new UsernamePasswordAuthenticationToken(username, password);
             Authentication result = authManager.authenticate(request);
             SecurityContextHolder.getContext().setAuthentication(result);
@@ -106,6 +116,7 @@ public class MainController {
             alertApproval.setTitle("Error!");
             alertApproval.setHeaderText(null);
             alertApproval.showAndWait();
+            logger.error("Отказано в доступе. Проверьте свои данные");
             System.out.println(e.getMessage());
         }
     }
@@ -138,6 +149,7 @@ public class MainController {
             newStage.getIcons().addAll(stage.getIcons());
             newStage.setOnCloseRequest(event -> hideApplication(newStage, event));
             newStage.show();
+            logger.info("Открытие управляющего окна для администратора");
             stage.hide();
         } else if (userSession.getRoles().contains("ROLE_LEAD")) {
             Window window = null;
@@ -157,6 +169,7 @@ public class MainController {
             newStage.getIcons().addAll(stage.getIcons());
             newStage.setOnCloseRequest(event -> hideApplication(newStage, event));
             newStage.show();
+            logger.info("Открытие управляющего окна для руководителя ");
             stage.hide();
         } else if (userSession.getRoles().contains("ROLE_USER")) {
             Window window = null;
@@ -176,6 +189,7 @@ public class MainController {
             newStage.getIcons().addAll(stage.getIcons());
             newStage.setOnCloseRequest(event -> hideApplication(newStage, event));
             newStage.show();
+            logger.info("Открытие управляющего окна для сотрудника");
             stage.hide();
         }
         loginField.clear();
@@ -207,6 +221,6 @@ public class MainController {
         newStage.hide();
         trayNotification.showAndDismiss(Duration.ONE);
         Tray.addAppToTray(newStage);
-        event.consume();
+        event.consume(); // Отменяем действие закрытия окна
     }
 }
