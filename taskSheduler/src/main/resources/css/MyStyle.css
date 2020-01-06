@@ -1,0 +1,105 @@
+.pane{
+    -fx-background-color:
+            linear-gradient(#0A7552 0%, #08543B 60%, #063C2A 80%, #020E0A 100%);
+}
+
+.table-view .column-header{
+    -fx-background-color: #0A7552;
+}
+
+.table-view .column-header .label{
+    -fx-font-family: Impact;
+    -fx-font-size: 12pt;
+    -fx-text-fill: white;
+}
+
+
+.button1:hover {
+    -fx-border-color: #63F2C3;
+    -fx-border-width: 1pt;
+}
+
+.button1:pressed {
+    -fx-text-fill: gray;
+}
+
+.text-field:hover {
+    -fx-border-width: 2pt;
+    -fx-border-color:
+            derive(#0A7552, 80%)
+            derive(#0A7552, 80%)
+            derive(#0A7552, 80%)
+            derive(#0A7552, 80%);
+    -fx-border-insets: 0 0 0 0;
+}
+
+.text-field:focused {
+    -fx-border-width: 2pt;
+    -fx-border-color:
+            derive(#0A7552, 80%)
+            derive(#0A7552, 80%)
+            derive(#0A7552, 80%)
+            derive(#0A7552, 80%);
+    -fx-border-insets: 0 0 0 0;
+}
+
+.combo-box:hover {
+    -fx-border-width: 2pt;
+    -fx-border-color:
+            derive(#0A7552, 80%)
+            derive(#0A7552, 80%)
+            derive(#0A7552, 80%)
+            derive(#0A7552, 80%);
+    -fx-border-insets: 0 0 0 0;
+}
+
+.button_search {
+    -fx-background-color:
+  	linear-gradient(#0A7552 0%, #08543B 60%, #063C2A 80%, #020E0A 100%);
+    -fx-font-family: Impact;
+    -fx-font-size: 14pt;
+    -fx-text-fill: white;
+}
+
+.button_search:hover {
+    -fx-border-color: #63F2C3;
+    -fx-border-width: 1pt;
+}
+
+.button_search:pressed {
+    -fx-background-color:linear-gradient(#070808 0%, #343736 30%, #343736 70%, #070808 100%);
+    -fx-border-color: #070808;
+    -fx-border-width: 2pt;
+    -fx-text-fill: gray;
+
+}
+
+.button_obzor {
+    -fx-background-color:
+  	linear-gradient(#0A7552 0%, #08543B 60%, #063C2A 80%, #020E0A 100%);
+    -fx-font-family: Impact;
+    -fx-font-size: 10pt;
+    -fx-text-fill: white;
+}
+
+.button_obzor:hover {
+    -fx-border-color: #63F2C3;
+    -fx-border-width: 1pt;
+}
+
+.button_obzor:pressed {
+    -fx-background-color:linear-gradient(#070808 0%, #343736 30%, #343736 70%, #070808 100%);
+    -fx-border-color: #070808;
+    -fx-border-width: 2pt;
+    -fx-text-fill: gray;
+
+}
+
+.progress_bar {
+-fx-accent: #0A7552;
+}
+
+.progress-bar > .track {
+  -fx-control-inner-background: #a1a1a1;
+}
+
